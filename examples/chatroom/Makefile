@@ -1,4 +1,5 @@
-API_OUT := "chatroom/chatroom.pb.go"
+SERVER_OUT := "server.bin
+GO_API_OUT := "chatroom/chatroom.pb.go"
 PKG := "github.com/qapquiz/cheirokmeta"
 
 .PHONY: api clean help
@@ -12,7 +13,7 @@ chatroom/chatroom.pb.go: chatroom/chatroom.proto
 					chatroom/chatroom.proto
 
 clean: ## Remove previous builds
-	@rm $(API_OUT)
+	@rm $(GO_API_OUT)
 
 help: ## Display this help screen
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
