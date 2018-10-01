@@ -1,0 +1,21 @@
+message Chat {
+  required string name = 1;
+  required string message = 2;
+}
+
+message CreateRoomRequest {
+  required string roomName = 1;
+}
+
+message CreateRoomResponse {
+  required int32 roomId = 1;
+}
+
+message JoinRoomRequest {
+  required int32 roomId = 1;
+}
+
+service ChatRoomService {
+  rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
+  rpc JoinRoom (JoinRoomRequest) returns (stream Chat);
+}
