@@ -1,31 +1,44 @@
 syntax = "proto3";
 
+
 package chatroom;
 
-message Chat {
-  int32 roomId = 1;
-  string name = 2;
-  string message = 3;
+message CreateRoom {
+    string roomName = 1;
+}
+message JoinRoom {
+    int32 roomId = 1;
+}
+message SendChat {
+    string message = 1;
 }
 
-message CreateRoomRequest {
-  string roomName = 1;
+message Request{
+    oneof Packet {
+        CreateRoom createRoom = 1;
+        JoinRoom joinRoom = 2;
+        SendChat sendChat = 3;
+    }
 }
 
 message CreateRoomResponse {
-  int32 roomId = 1;
+    int32 roomId = 1;
+}
+message JoinRoomResponse{
+    bool isSuccess = 1;
+}
+message ReceiveChat {
+    string message = 1;
 }
 
-message JoinRoomRequest {
-  int32 roomId = 1;
+message Response{
+    oneof Packet {
+        CreateRoomResponse createRoomResponse = 1;
+        JoinRoomResponse joinRoomResponse = 2;
+        ReceiveChat receiveChat = 3;
+    }
 }
 
-message JoinRoomResponse {
-  bool isSuccess = 1;
-}
-
-service ChatRoomService {
-  rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
-  rpc JoinRoom (JoinRoomRequest) returns (JoinRoomResponse);
-  rpc ChatInRoom (stream Chat) returns (stream Chat);
+service ChatServer {
+    rpc Poker (stream Request) returns (stream Response);
 }
