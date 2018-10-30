@@ -1,0 +1,14 @@
+{
+    "name": "Zosimos.Chatroom.Scripts",
+    "references": [
+        "Zosimos.Chatroom.Grpc"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
