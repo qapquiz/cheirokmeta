@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Grpc.Core;
 using UnityEngine;
-using Unity.Jobs;
 
 
 namespace Chat {
