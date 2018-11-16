@@ -15,7 +15,7 @@ namespace Platformer {
         [Inject] private Data _data; 
         
         protected override void OnUpdate() {
-            var settings = PlatformerManager.Settings;
+            var settings = PlatformerBootstrap.Settings;
 
             float dt = Time.deltaTime;
 
