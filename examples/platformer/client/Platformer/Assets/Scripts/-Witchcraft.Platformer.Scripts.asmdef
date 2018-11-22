@@ -6,7 +6,8 @@
         "Unity.Mathematics",
         "Unity.Transforms",
         "Unity.Rendering.Hybrid",
-        "Witchcraft.Platformer.Components"
+        "Witchcraft.Platformer.Components",
+        "Witchcraft.Platformer.Grpc"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

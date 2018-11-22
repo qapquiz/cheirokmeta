@@ -33,8 +33,6 @@ namespace Platformer {
             });
 
             entityManager.AddSharedComponentData(player, PlayerMeshRenderer);
-
-            Debug.Log(player);
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -47,6 +45,8 @@ namespace Platformer {
             Settings = settingGO?.GetComponent<PlatformerSettings>();
 
             PlayerMeshRenderer = GetPlayerPrototype("PlayerRenderPrototype");
+
+            World.Active.GetOrCreateManager<UpdatePlayerHud>().SetupGameObjects();
         }
 
         private static MeshInstanceRenderer GetPlayerPrototype(string protoName) {
