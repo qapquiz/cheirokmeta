@@ -7,8 +7,10 @@ using UnityEngine;
 namespace Platformer {
     public sealed class PlatformerBootstrap {
         public static EntityArchetype PlayerArcheType;
+        public static EntityArchetype OtherPlayerArcheType;
 
         public static MeshInstanceRenderer PlayerMeshRenderer;
+        public static MeshInstanceRenderer OtherPlayerMeshRenderer;
 
         public static PlatformerSettings Settings;
 
@@ -18,6 +20,10 @@ namespace Platformer {
 
             PlayerArcheType = entityManager.CreateArchetype(
                 typeof(Position), typeof(PlayerInput)
+            );
+
+            OtherPlayerArcheType = entityManager.CreateArchetype(
+                typeof(Position), typeof(OtherPlayerTag)
             );
         }
 
@@ -44,12 +50,13 @@ namespace Platformer {
             var settingGO = GameObject.Find("Settings");
             Settings = settingGO?.GetComponent<PlatformerSettings>();
 
-            PlayerMeshRenderer = GetPlayerPrototype("PlayerRenderPrototype");
+            PlayerMeshRenderer = GetPrototype("PlayerRenderPrototype");
+            OtherPlayerMeshRenderer = GetPrototype("OtherPlayerRenderPrototype");
 
             World.Active.GetOrCreateManager<UpdatePlayerHud>().SetupGameObjects();
         }
 
-        private static MeshInstanceRenderer GetPlayerPrototype(string protoName) {
+        private static MeshInstanceRenderer GetPrototype(string protoName) {
             var proto = GameObject.Find(protoName);
             var result = proto.GetComponent<MeshInstanceRendererComponent>().Value;
             Object.Destroy(proto);

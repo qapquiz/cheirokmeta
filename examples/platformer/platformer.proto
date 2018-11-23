@@ -5,15 +5,18 @@ package platformer;
 message PlayerData {
     int32 id = 1;
     string name = 2;
+    PlayerPosition position = 3;
 }
 
 message ConnectRequest {
-    PlayerData player = 1;
+    string name = 1;
 }
 
 message ConnectResponse {
     PlayerData player = 1;
     bool is_success = 2;
+
+    repeated PlayerData other_players = 3;
 }
 
 message PlayerPosition {

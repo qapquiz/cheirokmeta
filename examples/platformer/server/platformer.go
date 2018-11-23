@@ -17,14 +17,10 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type playerData struct {
-	id   int32
-	name string
-}
-
 type platformerServer struct {
-	LatestPlayerID int32
-	Players        map[int32]playerData
+	LatestPlayerID   int32
+	PlayersMapWithID map[int32]*pb.PlayerData
+	Players          []*pb.PlayerData
 
 	Broadcast     chan pb.StreamResponse
 	PlayerStreams map[int32]chan pb.StreamResponse
@@ -38,35 +34,44 @@ var (
 
 func (s *platformerServer) Connect(ctx context.Context, connectRequest *pb.ConnectRequest) (*pb.ConnectResponse, error) {
 	s.LatestPlayerID = s.LatestPlayerID + 1
-	s.Players[s.LatestPlayerID] = playerData{
-		id:   connectRequest.GetPlayer().GetId(),
-		name: connectRequest.GetPlayer().GetName(),
+
+	player := &pb.PlayerData{
+		Id:   s.LatestPlayerID,
+		Name: connectRequest.GetName(),
+		Position: &pb.PlayerPosition{
+			X: 0.0,
+			Y: 0.0,
+		},
 	}
+
+	s.Players = append(s.Players, player)
+	s.PlayersMapWithID[s.LatestPlayerID] = player
 
 	s.Broadcast <- pb.StreamResponse{
 		Event: &pb.StreamResponse_Player{
 			Player: &pb.StreamResponse_PlayerConnected{
-				Id:   connectRequest.GetPlayer().GetId(),
-				Name: connectRequest.GetPlayer().GetName(),
+				Id:   s.LatestPlayerID,
+				Name: connectRequest.GetName(),
 			},
 		},
 	}
 
 	return &pb.ConnectResponse{
-		Player: &pb.PlayerData{
-			Name: connectRequest.GetPlayer().GetName(),
-		},
-		IsSuccess: true,
+		Player:       player,
+		IsSuccess:    true,
+		OtherPlayers: s.Players,
 	}, nil
 }
 
 func (s *platformerServer) Stream(streamServer pb.Platformer_StreamServer) error {
+	playerIDHeader := "player-id"
+
 	md, ok := metadata.FromIncomingContext(streamServer.Context())
-	if !ok || len(md["playerID"]) == 0 {
+	if !ok || len(md[playerIDHeader]) == 0 {
 		log.Fatal("Cant get playerID from metadata")
 	}
 
-	playerIDString := md["playerID"][0]
+	playerIDString := md[playerIDHeader][0]
 	playerID, err := strconv.ParseInt(playerIDString, 10, 32)
 
 	if err != nil {
@@ -170,8 +175,9 @@ func main() {
 	grpcServer := grpc.NewServer()
 
 	server := &platformerServer{
-		LatestPlayerID: 0,
-		Players:        make(map[int32]playerData),
+		LatestPlayerID:   0,
+		PlayersMapWithID: make(map[int32]*pb.PlayerData),
+		Players:          []*pb.PlayerData{},
 
 		Broadcast:     make(chan pb.StreamResponse, 1000),
 		PlayerStreams: make(map[int32]chan pb.StreamResponse),

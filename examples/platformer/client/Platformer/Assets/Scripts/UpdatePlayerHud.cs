@@ -1,5 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Collections;
+using Unity.Transforms;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,18 +16,41 @@ namespace Platformer {
 
         [Inject] PlayerData _players;
 
-        public Button CreateRoomButton;
+        public Button ConnectButton;
 
         public void SetupGameObjects() {
-            CreateRoomButton = GameObject.Find("CreateRoomButton").GetComponent<Button>();
-            CreateRoomButton.onClick.AddListener(() => {
-                var response =  PlatformerGrpcController.Instance.CreateRoom(new CreateRoomRequest {});
-                PlatformerGrpcController.Instance.JoinRoom(new JoinRoomRequest {
-                    PlayerId = 1,
-                    RoomId = response.RoomId
+            ConnectButton = GameObject.Find("ConnectButton").GetComponent<Button>();
+            ConnectButton.onClick.AddListener(() => {
+                var connectResponse = PlatformerGrpcController.Instance.Connect(new ConnectRequest {
+                    Name = "armariya"
                 });
+
+                CreateOtherPlayers(connectResponse);
             });
-            CreateRoomButton.onClick.AddListener(PlatformerBootstrap.NewGame);
+            ConnectButton.onClick.AddListener(PlatformerBootstrap.NewGame);
+            ConnectButton.onClick.AddListener(() =>
+            {
+                PlatformerGrpcController.Instance.Stream();
+            });
+        }
+
+        public void CreateOtherPlayers(ConnectResponse connectResponse) {
+            var entityManager = World.Active.GetOrCreateManager<EntityManager>();
+
+            foreach (var otherPlayerData in connectResponse.OtherPlayers)
+            {
+                Entity otherPlayer = entityManager.CreateEntity(PlatformerBootstrap.OtherPlayerArcheType);
+                entityManager.SetComponentData(otherPlayer, new Position
+                {
+                    Value = new float3(
+                        otherPlayerData.Position.X,
+                        otherPlayerData.Position.Y,
+                        0.0f
+                    )
+                });
+
+                entityManager.AddSharedComponentData(otherPlayer, PlatformerBootstrap.OtherPlayerMeshRenderer);
+            }
         }
 
         protected override void OnUpdate() {
@@ -37,13 +62,13 @@ namespace Platformer {
         }
 
         private void ShowHud() {
-            if (CreateRoomButton != null && !CreateRoomButton.gameObject.activeSelf) {
-                CreateRoomButton.gameObject.SetActive(true);
+            if (ConnectButton != null && !ConnectButton.gameObject.activeSelf) {
+                ConnectButton.gameObject.SetActive(true);
             }
         }
 
         private void HideHud() {
-            CreateRoomButton?.gameObject.SetActive(false);
+            ConnectButton?.gameObject.SetActive(false);
         }
     }
 }

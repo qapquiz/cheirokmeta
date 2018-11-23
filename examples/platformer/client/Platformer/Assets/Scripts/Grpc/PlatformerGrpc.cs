@@ -12,24 +12,24 @@ namespace Platformer {
   {
     static readonly string __ServiceName = "platformer.Platformer";
 
-    static readonly grpc::Marshaller<global::Platformer.CreateRoomRequest> __Marshaller_platformer_CreateRoomRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Platformer.CreateRoomRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Platformer.CreateRoomResponse> __Marshaller_platformer_CreateRoomResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Platformer.CreateRoomResponse.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Platformer.JoinRoomRequest> __Marshaller_platformer_JoinRoomRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Platformer.JoinRoomRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Platformer.JoinRoomResponse> __Marshaller_platformer_JoinRoomResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Platformer.JoinRoomResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Platformer.ConnectRequest> __Marshaller_platformer_ConnectRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Platformer.ConnectRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Platformer.ConnectResponse> __Marshaller_platformer_ConnectResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Platformer.ConnectResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Platformer.PlayerPositionById> __Marshaller_platformer_PlayerPositionById = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Platformer.PlayerPositionById.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Platformer.StreamResponse> __Marshaller_platformer_StreamResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Platformer.StreamResponse.Parser.ParseFrom);
 
-    static readonly grpc::Method<global::Platformer.CreateRoomRequest, global::Platformer.CreateRoomResponse> __Method_CreateRoom = new grpc::Method<global::Platformer.CreateRoomRequest, global::Platformer.CreateRoomResponse>(
+    static readonly grpc::Method<global::Platformer.ConnectRequest, global::Platformer.ConnectResponse> __Method_Connect = new grpc::Method<global::Platformer.ConnectRequest, global::Platformer.ConnectResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
-        "CreateRoom",
-        __Marshaller_platformer_CreateRoomRequest,
-        __Marshaller_platformer_CreateRoomResponse);
+        "Connect",
+        __Marshaller_platformer_ConnectRequest,
+        __Marshaller_platformer_ConnectResponse);
 
-    static readonly grpc::Method<global::Platformer.JoinRoomRequest, global::Platformer.JoinRoomResponse> __Method_JoinRoom = new grpc::Method<global::Platformer.JoinRoomRequest, global::Platformer.JoinRoomResponse>(
-        grpc::MethodType.Unary,
+    static readonly grpc::Method<global::Platformer.PlayerPositionById, global::Platformer.StreamResponse> __Method_Stream = new grpc::Method<global::Platformer.PlayerPositionById, global::Platformer.StreamResponse>(
+        grpc::MethodType.DuplexStreaming,
         __ServiceName,
-        "JoinRoom",
-        __Marshaller_platformer_JoinRoomRequest,
-        __Marshaller_platformer_JoinRoomResponse);
+        "Stream",
+        __Marshaller_platformer_PlayerPositionById,
+        __Marshaller_platformer_StreamResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -40,18 +40,12 @@ namespace Platformer {
     /// <summary>Base class for server-side implementations of Platformer</summary>
     public abstract partial class PlatformerBase
     {
-      public virtual global::System.Threading.Tasks.Task<global::Platformer.CreateRoomResponse> CreateRoom(global::Platformer.CreateRoomRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Platformer.ConnectResponse> Connect(global::Platformer.ConnectRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      /// <summary>
-      /// rpc SyncPosition(stream PositionById) returns (stream PositionById);
-      /// </summary>
-      /// <param name="request">The request received from the client.</param>
-      /// <param name="context">The context of the server-side call handler being invoked.</param>
-      /// <returns>The response to send back to the client (wrapped by a task).</returns>
-      public virtual global::System.Threading.Tasks.Task<global::Platformer.JoinRoomResponse> JoinRoom(global::Platformer.JoinRoomRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task Stream(grpc::IAsyncStreamReader<global::Platformer.PlayerPositionById> requestStream, grpc::IServerStreamWriter<global::Platformer.StreamResponse> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -81,65 +75,29 @@ namespace Platformer {
       {
       }
 
-      public virtual global::Platformer.CreateRoomResponse CreateRoom(global::Platformer.CreateRoomRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Platformer.ConnectResponse Connect(global::Platformer.ConnectRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return CreateRoom(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return Connect(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::Platformer.CreateRoomResponse CreateRoom(global::Platformer.CreateRoomRequest request, grpc::CallOptions options)
+      public virtual global::Platformer.ConnectResponse Connect(global::Platformer.ConnectRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_CreateRoom, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_Connect, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::Platformer.CreateRoomResponse> CreateRoomAsync(global::Platformer.CreateRoomRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Platformer.ConnectResponse> ConnectAsync(global::Platformer.ConnectRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return CreateRoomAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return ConnectAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::Platformer.CreateRoomResponse> CreateRoomAsync(global::Platformer.CreateRoomRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Platformer.ConnectResponse> ConnectAsync(global::Platformer.ConnectRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncUnaryCall(__Method_CreateRoom, null, options, request);
+        return CallInvoker.AsyncUnaryCall(__Method_Connect, null, options, request);
       }
-      /// <summary>
-      /// rpc SyncPosition(stream PositionById) returns (stream PositionById);
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-      /// <param name="cancellationToken">An optional token for canceling the call.</param>
-      /// <returns>The response received from the server.</returns>
-      public virtual global::Platformer.JoinRoomResponse JoinRoom(global::Platformer.JoinRoomRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncDuplexStreamingCall<global::Platformer.PlayerPositionById, global::Platformer.StreamResponse> Stream(grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return JoinRoom(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+        return Stream(new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      /// <summary>
-      /// rpc SyncPosition(stream PositionById) returns (stream PositionById);
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="options">The options for the call.</param>
-      /// <returns>The response received from the server.</returns>
-      public virtual global::Platformer.JoinRoomResponse JoinRoom(global::Platformer.JoinRoomRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncDuplexStreamingCall<global::Platformer.PlayerPositionById, global::Platformer.StreamResponse> Stream(grpc::CallOptions options)
       {
-        return CallInvoker.BlockingUnaryCall(__Method_JoinRoom, null, options, request);
-      }
-      /// <summary>
-      /// rpc SyncPosition(stream PositionById) returns (stream PositionById);
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
-      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
-      /// <param name="cancellationToken">An optional token for canceling the call.</param>
-      /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Platformer.JoinRoomResponse> JoinRoomAsync(global::Platformer.JoinRoomRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
-      {
-        return JoinRoomAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
-      }
-      /// <summary>
-      /// rpc SyncPosition(stream PositionById) returns (stream PositionById);
-      /// </summary>
-      /// <param name="request">The request to send to the server.</param>
-      /// <param name="options">The options for the call.</param>
-      /// <returns>The call object.</returns>
-      public virtual grpc::AsyncUnaryCall<global::Platformer.JoinRoomResponse> JoinRoomAsync(global::Platformer.JoinRoomRequest request, grpc::CallOptions options)
-      {
-        return CallInvoker.AsyncUnaryCall(__Method_JoinRoom, null, options, request);
+        return CallInvoker.AsyncDuplexStreamingCall(__Method_Stream, null, options);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override PlatformerClient NewInstance(ClientBaseConfiguration configuration)
@@ -153,8 +111,8 @@ namespace Platformer {
     public static grpc::ServerServiceDefinition BindService(PlatformerBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_CreateRoom, serviceImpl.CreateRoom)
-          .AddMethod(__Method_JoinRoom, serviceImpl.JoinRoom).Build();
+          .AddMethod(__Method_Connect, serviceImpl.Connect)
+          .AddMethod(__Method_Stream, serviceImpl.Stream).Build();
     }
 
   }
