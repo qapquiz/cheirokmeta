@@ -8,3 +8,6 @@
 ### iOS
 - Must disable BitCode in Xcode
 - Must add libz.x.x.x library in build phases
+
+## Wanna join?
+You can join our discord channel - https://discord.gg/JBNwJ6A
