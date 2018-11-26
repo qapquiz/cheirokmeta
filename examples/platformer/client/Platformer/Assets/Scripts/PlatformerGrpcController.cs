@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Core;
+using Unity.Entities;
 
 namespace Platformer {
     public class PlatformerGrpcController {
@@ -12,7 +13,7 @@ namespace Platformer {
                     _instance = new PlatformerGrpcController();
                 }
 
-                _instance.ConnectToServer("127.0.0.1:5050");
+                _instance.ConnectToServer("68.183.225.171:5050");
 
                 return _instance;
             }
@@ -23,7 +24,6 @@ namespace Platformer {
         public AsyncDuplexStreamingCall<PlayerPositionById, StreamResponse> DuplexStream;
 
         ~PlatformerGrpcController() {
-            UnityEngine.Debug.Log("YOYOYO");
             Shutdown();
         }
 
@@ -52,10 +52,15 @@ namespace Platformer {
                         switch (response.EventCase) {
                             case StreamResponse.EventOneofCase.Player:
                                 // player connected to server
-                                var player = response.Player.Clone();
-                                UnityEngine.Debug.Log(player);
+                                if (PlatformerPlayerData.ID != response.Player.Id) {
+                                    EntityFactory.CreateOtherPlayer(response.Player);
+                                }
+
                                 break;
                             case StreamResponse.EventOneofCase.PlayerPositionById:
+                                if (PlatformerPlayerData.ID != response.PlayerPositionById.Id) {
+                                    UnityEngine.Debug.Log("POSITION: " + response.PlayerPositionById.Position);
+                                }
                                 break;
                         }
                     }

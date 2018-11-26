@@ -47,7 +47,7 @@ func (s *platformerServer) Connect(ctx context.Context, connectRequest *pb.Conne
 
 	s.Broadcast <- pb.StreamResponse{
 		Event: &pb.StreamResponse_Player{
-			Player: &pb.StreamResponse_PlayerConnected{
+			Player: &pb.PlayerData{
 				Id:   s.LatestPlayerID,
 				Name: connectRequest.GetName(),
 			},

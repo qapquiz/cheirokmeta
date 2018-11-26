@@ -1,8 +1,6 @@
 {
     "name": "Witchcraft.Platformer.Grpc",
-    "references": [
-        "GUID:99eeb63586dcd4f8ba60445c68fac5c8"
-    ],
+    "references": [],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],

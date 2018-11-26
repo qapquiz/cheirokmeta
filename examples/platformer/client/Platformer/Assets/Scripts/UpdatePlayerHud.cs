@@ -37,25 +37,15 @@ namespace Platformer {
         }
 
         public void CreateOtherPlayers(ConnectResponse connectResponse) {
-            var entityManager = World.Active.GetOrCreateManager<EntityManager>();
 
             foreach (var otherPlayerData in connectResponse.OtherPlayers)
             {
+
                 if (otherPlayerData.Id == PlatformerPlayerData.ID) {
                     continue;
                 }
 
-                Entity otherPlayer = entityManager.CreateEntity(PlatformerBootstrap.OtherPlayerArcheType);
-                entityManager.SetComponentData(otherPlayer, new Position
-                {
-                    Value = new float3(
-                        otherPlayerData.Position.X,
-                        otherPlayerData.Position.Y,
-                        0.0f
-                    )
-                });
-
-                entityManager.AddSharedComponentData(otherPlayer, PlatformerBootstrap.OtherPlayerMeshRenderer);
+                EntityFactory.CreateOtherPlayer(otherPlayerData);
             }
         }
 

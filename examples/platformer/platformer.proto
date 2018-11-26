@@ -31,13 +31,8 @@ message PlayerPositionById {
 
 message StreamResponse {
     oneof event { 
-        PlayerConnected player = 1;
+        PlayerData player = 1;
         PlayerPositionById player_position_by_id = 2;
-    }
-
-    message PlayerConnected {
-        int32 id = 1;
-        string name = 2;
     }
 }
 

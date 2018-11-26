@@ -32,15 +32,14 @@ namespace Platformer {
             "KAgSLQoNb3RoZXJfcGxheWVycxgDIAMoCzIWLnBsYXRmb3JtZXIuUGxheWVy",
             "RGF0YSImCg5QbGF5ZXJQb3NpdGlvbhIJCgF4GAEgASgCEgkKAXkYAiABKAIi",
             "TgoSUGxheWVyUG9zaXRpb25CeUlkEgoKAmlkGAEgASgFEiwKCHBvc2l0aW9u",
-            "GAIgASgLMhoucGxhdGZvcm1lci5QbGF5ZXJQb3NpdGlvbiLFAQoOU3RyZWFt",
-            "UmVzcG9uc2USPAoGcGxheWVyGAEgASgLMioucGxhdGZvcm1lci5TdHJlYW1S",
-            "ZXNwb25zZS5QbGF5ZXJDb25uZWN0ZWRIABI/ChVwbGF5ZXJfcG9zaXRpb25f",
-            "YnlfaWQYAiABKAsyHi5wbGF0Zm9ybWVyLlBsYXllclBvc2l0aW9uQnlJZEgA",
-            "GisKD1BsYXllckNvbm5lY3RlZBIKCgJpZBgBIAEoBRIMCgRuYW1lGAIgASgJ",
-            "QgcKBWV2ZW50MpoBCgpQbGF0Zm9ybWVyEkIKB0Nvbm5lY3QSGi5wbGF0Zm9y",
-            "bWVyLkNvbm5lY3RSZXF1ZXN0GhsucGxhdGZvcm1lci5Db25uZWN0UmVzcG9u",
-            "c2USSAoGU3RyZWFtEh4ucGxhdGZvcm1lci5QbGF5ZXJQb3NpdGlvbkJ5SWQa",
-            "Gi5wbGF0Zm9ybWVyLlN0cmVhbVJlc3BvbnNlKAEwAWIGcHJvdG8z"));
+            "GAIgASgLMhoucGxhdGZvcm1lci5QbGF5ZXJQb3NpdGlvbiKEAQoOU3RyZWFt",
+            "UmVzcG9uc2USKAoGcGxheWVyGAEgASgLMhYucGxhdGZvcm1lci5QbGF5ZXJE",
+            "YXRhSAASPwoVcGxheWVyX3Bvc2l0aW9uX2J5X2lkGAIgASgLMh4ucGxhdGZv",
+            "cm1lci5QbGF5ZXJQb3NpdGlvbkJ5SWRIAEIHCgVldmVudDKaAQoKUGxhdGZv",
+            "cm1lchJCCgdDb25uZWN0EhoucGxhdGZvcm1lci5Db25uZWN0UmVxdWVzdBob",
+            "LnBsYXRmb3JtZXIuQ29ubmVjdFJlc3BvbnNlEkgKBlN0cmVhbRIeLnBsYXRm",
+            "b3JtZXIuUGxheWVyUG9zaXRpb25CeUlkGhoucGxhdGZvcm1lci5TdHJlYW1S",
+            "ZXNwb25zZSgBMAFiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -49,7 +48,7 @@ namespace Platformer {
             new pbr::GeneratedClrTypeInfo(typeof(global::Platformer.ConnectResponse), global::Platformer.ConnectResponse.Parser, new[]{ "Player", "IsSuccess", "OtherPlayers" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Platformer.PlayerPosition), global::Platformer.PlayerPosition.Parser, new[]{ "X", "Y" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Platformer.PlayerPositionById), global::Platformer.PlayerPositionById.Parser, new[]{ "Id", "Position" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Platformer.StreamResponse), global::Platformer.StreamResponse.Parser, new[]{ "Player", "PlayerPositionById" }, new[]{ "Event" }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Platformer.StreamResponse.Types.PlayerConnected), global::Platformer.StreamResponse.Types.PlayerConnected.Parser, new[]{ "Id", "Name" }, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::Platformer.StreamResponse), global::Platformer.StreamResponse.Parser, new[]{ "Player", "PlayerPositionById" }, new[]{ "Event" }, null, null)
           }));
     }
     #endregion
@@ -924,8 +923,8 @@ namespace Platformer {
     /// <summary>Field number for the "player" field.</summary>
     public const int PlayerFieldNumber = 1;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Platformer.StreamResponse.Types.PlayerConnected Player {
-      get { return eventCase_ == EventOneofCase.Player ? (global::Platformer.StreamResponse.Types.PlayerConnected) event_ : null; }
+    public global::Platformer.PlayerData Player {
+      get { return eventCase_ == EventOneofCase.Player ? (global::Platformer.PlayerData) event_ : null; }
       set {
         event_ = value;
         eventCase_ = value == null ? EventOneofCase.None : EventOneofCase.Player;
@@ -1036,7 +1035,7 @@ namespace Platformer {
       switch (other.EventCase) {
         case EventOneofCase.Player:
           if (Player == null) {
-            Player = new global::Platformer.StreamResponse.Types.PlayerConnected();
+            Player = new global::Platformer.PlayerData();
           }
           Player.MergeFrom(other.Player);
           break;
@@ -1060,7 +1059,7 @@ namespace Platformer {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Platformer.StreamResponse.Types.PlayerConnected subBuilder = new global::Platformer.StreamResponse.Types.PlayerConnected();
+            global::Platformer.PlayerData subBuilder = new global::Platformer.PlayerData();
             if (eventCase_ == EventOneofCase.Player) {
               subBuilder.MergeFrom(Player);
             }
@@ -1080,170 +1079,6 @@ namespace Platformer {
         }
       }
     }
-
-    #region Nested types
-    /// <summary>Container for nested types declared in the StreamResponse message type.</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static partial class Types {
-      public sealed partial class PlayerConnected : pb::IMessage<PlayerConnected> {
-        private static readonly pb::MessageParser<PlayerConnected> _parser = new pb::MessageParser<PlayerConnected>(() => new PlayerConnected());
-        private pb::UnknownFieldSet _unknownFields;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pb::MessageParser<PlayerConnected> Parser { get { return _parser; } }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public static pbr::MessageDescriptor Descriptor {
-          get { return global::Platformer.StreamResponse.Descriptor.NestedTypes[0]; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        pbr::MessageDescriptor pb::IMessage.Descriptor {
-          get { return Descriptor; }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public PlayerConnected() {
-          OnConstruction();
-        }
-
-        partial void OnConstruction();
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public PlayerConnected(PlayerConnected other) : this() {
-          id_ = other.id_;
-          name_ = other.name_;
-          _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public PlayerConnected Clone() {
-          return new PlayerConnected(this);
-        }
-
-        /// <summary>Field number for the "id" field.</summary>
-        public const int IdFieldNumber = 1;
-        private int id_;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int Id {
-          get { return id_; }
-          set {
-            id_ = value;
-          }
-        }
-
-        /// <summary>Field number for the "name" field.</summary>
-        public const int NameFieldNumber = 2;
-        private string name_ = "";
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public string Name {
-          get { return name_; }
-          set {
-            name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-          }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override bool Equals(object other) {
-          return Equals(other as PlayerConnected);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public bool Equals(PlayerConnected other) {
-          if (ReferenceEquals(other, null)) {
-            return false;
-          }
-          if (ReferenceEquals(other, this)) {
-            return true;
-          }
-          if (Id != other.Id) return false;
-          if (Name != other.Name) return false;
-          return Equals(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override int GetHashCode() {
-          int hash = 1;
-          if (Id != 0) hash ^= Id.GetHashCode();
-          if (Name.Length != 0) hash ^= Name.GetHashCode();
-          if (_unknownFields != null) {
-            hash ^= _unknownFields.GetHashCode();
-          }
-          return hash;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public override string ToString() {
-          return pb::JsonFormatter.ToDiagnosticString(this);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void WriteTo(pb::CodedOutputStream output) {
-          if (Id != 0) {
-            output.WriteRawTag(8);
-            output.WriteInt32(Id);
-          }
-          if (Name.Length != 0) {
-            output.WriteRawTag(18);
-            output.WriteString(Name);
-          }
-          if (_unknownFields != null) {
-            _unknownFields.WriteTo(output);
-          }
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int CalculateSize() {
-          int size = 0;
-          if (Id != 0) {
-            size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
-          }
-          if (Name.Length != 0) {
-            size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
-          }
-          if (_unknownFields != null) {
-            size += _unknownFields.CalculateSize();
-          }
-          return size;
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(PlayerConnected other) {
-          if (other == null) {
-            return;
-          }
-          if (other.Id != 0) {
-            Id = other.Id;
-          }
-          if (other.Name.Length != 0) {
-            Name = other.Name;
-          }
-          _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-        }
-
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public void MergeFrom(pb::CodedInputStream input) {
-          uint tag;
-          while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
-              default:
-                _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-                break;
-              case 8: {
-                Id = input.ReadInt32();
-                break;
-              }
-              case 18: {
-                Name = input.ReadString();
-                break;
-              }
-            }
-          }
-        }
-
-      }
-
-    }
-    #endregion
 
   }
 
