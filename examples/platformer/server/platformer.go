@@ -33,8 +33,6 @@ var (
 )
 
 func (s *platformerServer) Connect(ctx context.Context, connectRequest *pb.ConnectRequest) (*pb.ConnectResponse, error) {
-	s.LatestPlayerID = s.LatestPlayerID + 1
-
 	player := &pb.PlayerData{
 		Id:   s.LatestPlayerID,
 		Name: connectRequest.GetName(),
@@ -56,6 +54,8 @@ func (s *platformerServer) Connect(ctx context.Context, connectRequest *pb.Conne
 		},
 	}
 
+	s.LatestPlayerID = s.LatestPlayerID + 1
+
 	return &pb.ConnectResponse{
 		Player:       player,
 		IsSuccess:    true,
@@ -72,9 +72,6 @@ func (s *platformerServer) Stream(streamServer pb.Platformer_StreamServer) error
 	}
 
 	playerIDString := md[playerIDHeader][0]
-
-	log.Printf("METADATA: %v", md)
-
 	playerID, err := strconv.ParseInt(playerIDString, 10, 32)
 
 	if err != nil {
@@ -90,6 +87,12 @@ func (s *platformerServer) Stream(streamServer pb.Platformer_StreamServer) error
 		} else if err != nil {
 			return err
 		}
+
+		id := req.GetId()
+		position := req.GetPosition()
+
+		s.Players[id].Position = position
+		s.PlayersMapWithID[id].Position = position
 
 		log.Printf("Receive from id: %v position: %v", req.GetId(), req.GetPosition())
 

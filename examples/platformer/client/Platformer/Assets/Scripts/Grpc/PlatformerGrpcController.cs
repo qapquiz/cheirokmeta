@@ -20,9 +20,13 @@ namespace Platformer {
 
         public Channel Channel;
         public Platformer.PlatformerClient Client;
-        public int PlayerID;
         public AsyncDuplexStreamingCall<PlayerPositionById, StreamResponse> DuplexStream;
- 
+
+        ~PlatformerGrpcController() {
+            UnityEngine.Debug.Log("YOYOYO");
+            Shutdown();
+        }
+
         public void ConnectToServer(string url) {
             Channel = new Channel(url, ChannelCredentials.Insecure);
             Client = new Platformer.PlatformerClient(Channel);
@@ -36,8 +40,8 @@ namespace Platformer {
         public async Task Stream() {
             try {
                 var metadata = new Metadata {
-                    {"player-id", PlayerID.ToString()}
-                };
+                    {"player-id", PlatformerPlayerData.ID.ToString()}
+                }; 
 
                 DuplexStream = Client.Stream(headers: metadata);
 
@@ -49,7 +53,7 @@ namespace Platformer {
                             case StreamResponse.EventOneofCase.Player:
                                 // player connected to server
                                 var player = response.Player.Clone();
-
+                                UnityEngine.Debug.Log(player);
                                 break;
                             case StreamResponse.EventOneofCase.PlayerPositionById:
                                 break;
@@ -67,8 +71,11 @@ namespace Platformer {
 
         public async void Shutdown() {
             Channel.ShutdownAsync().Wait();
-            await DuplexStream.RequestStream.CompleteAsync();
-            DuplexStream.Dispose();
+
+            if (DuplexStream != null) {
+                await DuplexStream.RequestStream.CompleteAsync();
+                DuplexStream.Dispose();
+            }
             _instance = null;
         }
     }

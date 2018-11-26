@@ -25,6 +25,8 @@ namespace Platformer {
                     Name = "armariya"
                 });
 
+                PlatformerPlayerData.ID = connectResponse.Player.Id; 
+
                 CreateOtherPlayers(connectResponse);
             });
             ConnectButton.onClick.AddListener(PlatformerBootstrap.NewGame);
@@ -39,6 +41,10 @@ namespace Platformer {
 
             foreach (var otherPlayerData in connectResponse.OtherPlayers)
             {
+                if (otherPlayerData.Id == PlatformerPlayerData.ID) {
+                    continue;
+                }
+
                 Entity otherPlayer = entityManager.CreateEntity(PlatformerBootstrap.OtherPlayerArcheType);
                 entityManager.SetComponentData(otherPlayer, new Position
                 {

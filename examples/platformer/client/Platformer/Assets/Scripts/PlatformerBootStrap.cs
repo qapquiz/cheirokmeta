@@ -19,7 +19,7 @@ namespace Platformer {
             var entityManager = World.Active.GetOrCreateManager<EntityManager>();
 
             PlayerArcheType = entityManager.CreateArchetype(
-                typeof(Position), typeof(PlayerInput)
+                typeof(Position), typeof(PlayerInput), typeof(PlayerUpdatedPosition)
             );
 
             OtherPlayerArcheType = entityManager.CreateArchetype(
@@ -36,6 +36,9 @@ namespace Platformer {
             entityManager.SetComponentData(player, new Position { Value = new float3(0.0f, 0.0f, 0.0f) });
             entityManager.SetComponentData(player, new PlayerInput {
                 Move = new float3(0.0f, 0.0f, 0.0f)
+            });
+            entityManager.SetComponentData(player, new PlayerUpdatedPosition {
+                Value = new float3(0.0f, 0.0f, 0.0f)
             });
 
             entityManager.AddSharedComponentData(player, PlayerMeshRenderer);

@@ -5,5 +5,9 @@ namespace Platformer {
         void Start() {
             //PlatformerBootstrap.NewGame();
         }
+
+        private void OnApplicationQuit() {
+            PlatformerGrpcController.Instance.Shutdown();
+        }
     }
 }
