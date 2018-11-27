@@ -8,6 +8,7 @@ namespace Platformer {
     public sealed class PlatformerBootstrap {
         public static EntityArchetype PlayerArcheType;
         public static EntityArchetype OtherPlayerArcheType;
+        public static EntityArchetype GrpcReceiverArcheType;
 
         public static MeshInstanceRenderer PlayerMeshRenderer;
         public static MeshInstanceRenderer OtherPlayerMeshRenderer;
@@ -23,7 +24,11 @@ namespace Platformer {
             );
 
             OtherPlayerArcheType = entityManager.CreateArchetype(
-                typeof(Position), typeof(OtherPlayerTag)
+                typeof(Position), typeof(OtherPlayerData)
+            );
+
+            GrpcReceiverArcheType = entityManager.CreateArchetype(
+                typeof(GrpcReceiverTag)
             );
         }
 

@@ -50,6 +50,10 @@ func (s *platformerServer) Connect(ctx context.Context, connectRequest *pb.Conne
 			Player: &pb.PlayerData{
 				Id:   s.LatestPlayerID,
 				Name: connectRequest.GetName(),
+				Position: &pb.PlayerPosition{
+					X: 0.0,
+					Y: 0.0,
+				},
 			},
 		},
 	}

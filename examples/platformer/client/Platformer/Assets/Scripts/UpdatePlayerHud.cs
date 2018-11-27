@@ -30,10 +30,7 @@ namespace Platformer {
                 CreateOtherPlayers(connectResponse);
             });
             ConnectButton.onClick.AddListener(PlatformerBootstrap.NewGame);
-            ConnectButton.onClick.AddListener(() =>
-            {
-                PlatformerGrpcController.Instance.Stream();
-            });
+            ConnectButton.onClick.AddListener(PlatformerGrpcController.Instance.Stream);
         }
 
         public void CreateOtherPlayers(ConnectResponse connectResponse) {
@@ -47,6 +44,7 @@ namespace Platformer {
 
                 EntityFactory.CreateOtherPlayer(otherPlayerData);
             }
+
         }
 
         protected override void OnUpdate() {

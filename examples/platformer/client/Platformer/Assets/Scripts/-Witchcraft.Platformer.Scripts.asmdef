@@ -5,6 +5,8 @@
         "Unity.Entities.Hybrid",
         "Unity.Mathematics",
         "Unity.Transforms",
+        "Unity.Jobs",
+        "Unity.Collections",
         "Unity.Rendering.Hybrid",
         "Witchcraft.Platformer.Components",
         "Witchcraft.Platformer.Grpc",

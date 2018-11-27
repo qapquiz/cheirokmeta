@@ -38,10 +38,6 @@ namespace Platformer {
                 _player.UpdatedPositions[i] = new PlayerUpdatedPosition {
                     Value = new float3(_player.Positions[i].Value.x, _player.Positions[i].Value.y, 0)
                 };
-            
-
-
-                UnityEngine.Debug.Log("UPDATE POSITION!");
             }
         }
 

@@ -8,7 +8,8 @@ namespace Platformer {
             var entityManager = World.Active.GetOrCreateManager<EntityManager>();
 
             Entity otherPlayer = entityManager.CreateEntity(PlatformerBootstrap.OtherPlayerArcheType);
-            entityManager.SetComponentData(otherPlayer, new OtherPlayerTag
+
+            entityManager.SetComponentData(otherPlayer, new OtherPlayerData
             {
                 ID = otherPlayerData.Id
             });
@@ -22,6 +23,21 @@ namespace Platformer {
             });
 
             entityManager.AddSharedComponentData(otherPlayer, PlatformerBootstrap.OtherPlayerMeshRenderer);
+        }
+
+        public static void CreateOtherPlayer(EntityCommandBuffer commandBuffer, PlayerData otherPlayerData) {
+            commandBuffer.CreateEntity(PlatformerBootstrap.OtherPlayerArcheType);
+            commandBuffer.SetComponent(new OtherPlayerData {
+                ID = otherPlayerData.Id
+            });
+            commandBuffer.SetComponent(new Position {
+                Value = new float3(
+                    otherPlayerData.Position.X,
+                    otherPlayerData.Position.Y,
+                    0.0f
+                )
+            });
+            commandBuffer.AddSharedComponent(PlatformerBootstrap.OtherPlayerMeshRenderer);
         }
     }
 }
