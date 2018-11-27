@@ -25,6 +25,8 @@ namespace Platformer {
                     _otherPlayer.Positions[i] = new Position {
                         Value = position
                     };
+
+                    PlatformerGrpcController.Instance.PlayerPositionByIdResponses.Remove(id);
                 }
                 else {
                     continue;
