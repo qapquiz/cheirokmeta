@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package platformer;
+
+message PlayerData {
+    int32 id = 1;
+    string name = 2;
+    PlayerPosition position = 3;
+}
+
+message ConnectRequest {
+    string name = 1;
+}
+
+message ConnectResponse {
+    PlayerData player = 1;
+    bool is_success = 2;
+
+    repeated PlayerData other_players = 3;
+}
+
+message PlayerPosition {
+    float x = 1;
+    float y = 2;
+}
+
+message PlayerPositionById {
+    int32 id = 1;
+    PlayerPosition position = 2;
+}
+
+message StreamResponse {
+    oneof event { 
+        PlayerData player = 1;
+        PlayerPositionById player_position_by_id = 2;
+    }
+}
+
+service Platformer {
+    rpc Connect(ConnectRequest) returns (ConnectResponse);
+    rpc Stream(stream PlayerPositionById) returns (stream StreamResponse);
+}

@@ -1,0 +1,24 @@
+{
+    "name": "Witchcraft.Platformer.Scripts",
+    "references": [
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Jobs",
+        "Unity.Collections",
+        "Unity.Rendering.Hybrid",
+        "Witchcraft.Platformer.Components",
+        "Witchcraft.Platformer.Grpc",
+        "Witchcraft.Platformer.PlayerData"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

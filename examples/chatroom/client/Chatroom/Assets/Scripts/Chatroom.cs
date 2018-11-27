@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Jobs;
@@ -19,14 +18,15 @@ public class Chatroom : MonoBehaviour
     [SerializeField] private InputField _inputField;
     [SerializeField] private Text _chatField;
 
-    private string _tempChatField = "";
+    private static string _tempChatField = "";
+    private JobHandle _receiverJobHandle;
 
-    async void Start() {
+    void Start() {
         Channel = new Channel(DOMAIN_NAME, ChannelCredentials.Insecure);
         ChatroomClient = new ChatroomClient(new Chat.Chat.ChatClient(Channel));
         _token = ChatroomClient.Login("armariya", "super-secret");
         ChatroomClient.OpenStream(_token);
-        await StartStreamReceiverJob();
+        _receiverJobHandle = StartStreamReceiverJob();
     }
 
     private void Update() {
@@ -46,14 +46,44 @@ public class Chatroom : MonoBehaviour
 
     private void OnDestroy() {
         ChatroomClient.Logout(_token);
+        _receiverJobHandle.Complete();
     }
 
-    public async Task StartStreamReceiverJob()
+    public JobHandle StartStreamReceiverJob()
     {
-        //var job = new StreamReceiverJob();
-        //job.Schedule();
+        var job = new StreamReceiverJob();
+        return job.Schedule();
 
-        await Task.Run(async () => {
+        //await Task.Run(async () => {
+        //    while (await ChatroomClient.StreamCall.ResponseStream.MoveNext())
+        //    {
+        //        var currentResponse = ChatroomClient.StreamCall.ResponseStream.Current;
+
+        //        switch (currentResponse.EventCase)
+        //        {
+        //            case StreamResponse.EventOneofCase.ClientMessage:
+        //                Debug.Log($"Name: {currentResponse.ClientMessage.Name} Message: {currentResponse.ClientMessage.Message_}");
+        //                _tempChatField = _tempChatField + $"{currentResponse.ClientMessage.Name}: {currentResponse.ClientMessage.Message_}\n";
+        //                break;
+        //            case StreamResponse.EventOneofCase.ClientLogin:
+        //                Debug.Log($"{currentResponse.ClientLogin.Name} is logged in");
+        //                break;
+        //            case StreamResponse.EventOneofCase.ClientLogout:
+        //                Debug.Log($"{currentResponse.ClientLogout.Name} is logged out");
+        //                break;
+        //            case StreamResponse.EventOneofCase.ServerShutdown:
+        //                Debug.Log("Server shutdown");
+        //                break;
+        //        }
+        //    }
+        //});
+    }
+
+    // this IJob long-run event! 
+    public struct StreamReceiverJob : IJob {
+
+        public async void Execute()
+        {
             while (await ChatroomClient.StreamCall.ResponseStream.MoveNext())
             {
                 var currentResponse = ChatroomClient.StreamCall.ResponseStream.Current;
@@ -63,34 +93,6 @@ public class Chatroom : MonoBehaviour
                     case StreamResponse.EventOneofCase.ClientMessage:
                         Debug.Log($"Name: {currentResponse.ClientMessage.Name} Message: {currentResponse.ClientMessage.Message_}");
                         _tempChatField = _tempChatField + $"{currentResponse.ClientMessage.Name}: {currentResponse.ClientMessage.Message_}\n";
-                        break;
-                    case StreamResponse.EventOneofCase.ClientLogin:
-                        Debug.Log($"{currentResponse.ClientLogin.Name} is logged in");
-                        break;
-                    case StreamResponse.EventOneofCase.ClientLogout:
-                        Debug.Log($"{currentResponse.ClientLogout.Name} is logged out");
-                        break;
-                    case StreamResponse.EventOneofCase.ServerShutdown:
-                        Debug.Log("Server shutdown");
-                        break;
-                }
-            }
-        });
-    }
-
-    public struct StreamReceiverJob : IJob
-    {
-        public async void Execute()
-        {
-            Debug.Log("Fire Job");
-            while (await ChatroomClient.StreamCall.ResponseStream.MoveNext())
-            {
-                var currentResponse = ChatroomClient.StreamCall.ResponseStream.Current;
-
-                switch (currentResponse.EventCase)
-                {
-                    case StreamResponse.EventOneofCase.ClientMessage:
-                        Debug.Log($"Name: {currentResponse.ClientMessage.Name} Message: {currentResponse.ClientMessage.Message_}");
                         break;
                     case StreamResponse.EventOneofCase.ClientLogin:
                         Debug.Log($"{currentResponse.ClientLogin.Name} is logged in");

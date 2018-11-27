@@ -1,4 +1,4 @@
-SERVER_OUT := "server.bin
+SERVER_OUT := "server.bin"
 GO_API_OUT := "chatroom/chatroom.pb.go"
 PKG := "github.com/qapquiz/cheirokmeta"
 
@@ -9,7 +9,7 @@ api: chatroom/chatroom.pb.go ## Auto-generate grpc go sources
 chatroom/chatroom.pb.go: chatroom/chatroom.proto
 	@protoc -I chatroom/ \
 					-I${GOPATH}/src \
-					--go_out=plugings=grpc:chatroom \
+					--go_out=plugins=grpc:chatroom \
 					chatroom/chatroom.proto
 
 clean: ## Remove previous builds
