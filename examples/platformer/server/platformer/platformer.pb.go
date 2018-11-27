@@ -22,288 +22,431 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type CreateRoomRequest struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+type PlayerData struct {
+	Id                   int32           `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                 string          `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Position             *PlayerPosition `protobuf:"bytes,3,opt,name=position,proto3" json:"position,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *CreateRoomRequest) Reset()         { *m = CreateRoomRequest{} }
-func (m *CreateRoomRequest) String() string { return proto.CompactTextString(m) }
-func (*CreateRoomRequest) ProtoMessage()    {}
-func (*CreateRoomRequest) Descriptor() ([]byte, []int) {
+func (m *PlayerData) Reset()         { *m = PlayerData{} }
+func (m *PlayerData) String() string { return proto.CompactTextString(m) }
+func (*PlayerData) ProtoMessage()    {}
+func (*PlayerData) Descriptor() ([]byte, []int) {
 	return fileDescriptor_7ed0ab0be00c75b7, []int{0}
 }
 
-func (m *CreateRoomRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateRoomRequest.Unmarshal(m, b)
+func (m *PlayerData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PlayerData.Unmarshal(m, b)
 }
-func (m *CreateRoomRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateRoomRequest.Marshal(b, m, deterministic)
+func (m *PlayerData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PlayerData.Marshal(b, m, deterministic)
 }
-func (m *CreateRoomRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateRoomRequest.Merge(m, src)
+func (m *PlayerData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PlayerData.Merge(m, src)
 }
-func (m *CreateRoomRequest) XXX_Size() int {
-	return xxx_messageInfo_CreateRoomRequest.Size(m)
+func (m *PlayerData) XXX_Size() int {
+	return xxx_messageInfo_PlayerData.Size(m)
 }
-func (m *CreateRoomRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateRoomRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_CreateRoomRequest proto.InternalMessageInfo
-
-type CreateRoomResponse struct {
-	RoomId               int32    `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+func (m *PlayerData) XXX_DiscardUnknown() {
+	xxx_messageInfo_PlayerData.DiscardUnknown(m)
 }
 
-func (m *CreateRoomResponse) Reset()         { *m = CreateRoomResponse{} }
-func (m *CreateRoomResponse) String() string { return proto.CompactTextString(m) }
-func (*CreateRoomResponse) ProtoMessage()    {}
-func (*CreateRoomResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7ed0ab0be00c75b7, []int{1}
-}
+var xxx_messageInfo_PlayerData proto.InternalMessageInfo
 
-func (m *CreateRoomResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateRoomResponse.Unmarshal(m, b)
-}
-func (m *CreateRoomResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateRoomResponse.Marshal(b, m, deterministic)
-}
-func (m *CreateRoomResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateRoomResponse.Merge(m, src)
-}
-func (m *CreateRoomResponse) XXX_Size() int {
-	return xxx_messageInfo_CreateRoomResponse.Size(m)
-}
-func (m *CreateRoomResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateRoomResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_CreateRoomResponse proto.InternalMessageInfo
-
-func (m *CreateRoomResponse) GetRoomId() int32 {
-	if m != nil {
-		return m.RoomId
-	}
-	return 0
-}
-
-type JoinRoomRequest struct {
-	RoomId               int32    `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
-	UserId               int32    `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *JoinRoomRequest) Reset()         { *m = JoinRoomRequest{} }
-func (m *JoinRoomRequest) String() string { return proto.CompactTextString(m) }
-func (*JoinRoomRequest) ProtoMessage()    {}
-func (*JoinRoomRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7ed0ab0be00c75b7, []int{2}
-}
-
-func (m *JoinRoomRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_JoinRoomRequest.Unmarshal(m, b)
-}
-func (m *JoinRoomRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_JoinRoomRequest.Marshal(b, m, deterministic)
-}
-func (m *JoinRoomRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_JoinRoomRequest.Merge(m, src)
-}
-func (m *JoinRoomRequest) XXX_Size() int {
-	return xxx_messageInfo_JoinRoomRequest.Size(m)
-}
-func (m *JoinRoomRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_JoinRoomRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_JoinRoomRequest proto.InternalMessageInfo
-
-func (m *JoinRoomRequest) GetRoomId() int32 {
-	if m != nil {
-		return m.RoomId
-	}
-	return 0
-}
-
-func (m *JoinRoomRequest) GetUserId() int32 {
-	if m != nil {
-		return m.UserId
-	}
-	return 0
-}
-
-type JoinRoomResponse struct {
-	IsSuccess            bool     `protobuf:"varint,1,opt,name=is_success,json=isSuccess,proto3" json:"is_success,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *JoinRoomResponse) Reset()         { *m = JoinRoomResponse{} }
-func (m *JoinRoomResponse) String() string { return proto.CompactTextString(m) }
-func (*JoinRoomResponse) ProtoMessage()    {}
-func (*JoinRoomResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7ed0ab0be00c75b7, []int{3}
-}
-
-func (m *JoinRoomResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_JoinRoomResponse.Unmarshal(m, b)
-}
-func (m *JoinRoomResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_JoinRoomResponse.Marshal(b, m, deterministic)
-}
-func (m *JoinRoomResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_JoinRoomResponse.Merge(m, src)
-}
-func (m *JoinRoomResponse) XXX_Size() int {
-	return xxx_messageInfo_JoinRoomResponse.Size(m)
-}
-func (m *JoinRoomResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_JoinRoomResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_JoinRoomResponse proto.InternalMessageInfo
-
-func (m *JoinRoomResponse) GetIsSuccess() bool {
-	if m != nil {
-		return m.IsSuccess
-	}
-	return false
-}
-
-type Position struct {
-	X                    int32    `protobuf:"varint,1,opt,name=x,proto3" json:"x,omitempty"`
-	Y                    int32    `protobuf:"varint,2,opt,name=y,proto3" json:"y,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Position) Reset()         { *m = Position{} }
-func (m *Position) String() string { return proto.CompactTextString(m) }
-func (*Position) ProtoMessage()    {}
-func (*Position) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7ed0ab0be00c75b7, []int{4}
-}
-
-func (m *Position) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Position.Unmarshal(m, b)
-}
-func (m *Position) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Position.Marshal(b, m, deterministic)
-}
-func (m *Position) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Position.Merge(m, src)
-}
-func (m *Position) XXX_Size() int {
-	return xxx_messageInfo_Position.Size(m)
-}
-func (m *Position) XXX_DiscardUnknown() {
-	xxx_messageInfo_Position.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Position proto.InternalMessageInfo
-
-func (m *Position) GetX() int32 {
-	if m != nil {
-		return m.X
-	}
-	return 0
-}
-
-func (m *Position) GetY() int32 {
-	if m != nil {
-		return m.Y
-	}
-	return 0
-}
-
-type PositionById struct {
-	Id                   int32     `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Position             *Position `protobuf:"bytes,2,opt,name=position,proto3" json:"position,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
-	XXX_unrecognized     []byte    `json:"-"`
-	XXX_sizecache        int32     `json:"-"`
-}
-
-func (m *PositionById) Reset()         { *m = PositionById{} }
-func (m *PositionById) String() string { return proto.CompactTextString(m) }
-func (*PositionById) ProtoMessage()    {}
-func (*PositionById) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7ed0ab0be00c75b7, []int{5}
-}
-
-func (m *PositionById) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_PositionById.Unmarshal(m, b)
-}
-func (m *PositionById) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_PositionById.Marshal(b, m, deterministic)
-}
-func (m *PositionById) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PositionById.Merge(m, src)
-}
-func (m *PositionById) XXX_Size() int {
-	return xxx_messageInfo_PositionById.Size(m)
-}
-func (m *PositionById) XXX_DiscardUnknown() {
-	xxx_messageInfo_PositionById.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_PositionById proto.InternalMessageInfo
-
-func (m *PositionById) GetId() int32 {
+func (m *PlayerData) GetId() int32 {
 	if m != nil {
 		return m.Id
 	}
 	return 0
 }
 
-func (m *PositionById) GetPosition() *Position {
+func (m *PlayerData) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *PlayerData) GetPosition() *PlayerPosition {
 	if m != nil {
 		return m.Position
 	}
 	return nil
 }
 
+type ConnectRequest struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ConnectRequest) Reset()         { *m = ConnectRequest{} }
+func (m *ConnectRequest) String() string { return proto.CompactTextString(m) }
+func (*ConnectRequest) ProtoMessage()    {}
+func (*ConnectRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7ed0ab0be00c75b7, []int{1}
+}
+
+func (m *ConnectRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConnectRequest.Unmarshal(m, b)
+}
+func (m *ConnectRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConnectRequest.Marshal(b, m, deterministic)
+}
+func (m *ConnectRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConnectRequest.Merge(m, src)
+}
+func (m *ConnectRequest) XXX_Size() int {
+	return xxx_messageInfo_ConnectRequest.Size(m)
+}
+func (m *ConnectRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConnectRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConnectRequest proto.InternalMessageInfo
+
+func (m *ConnectRequest) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type ConnectResponse struct {
+	Player               *PlayerData   `protobuf:"bytes,1,opt,name=player,proto3" json:"player,omitempty"`
+	IsSuccess            bool          `protobuf:"varint,2,opt,name=is_success,json=isSuccess,proto3" json:"is_success,omitempty"`
+	OtherPlayers         []*PlayerData `protobuf:"bytes,3,rep,name=other_players,json=otherPlayers,proto3" json:"other_players,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
+}
+
+func (m *ConnectResponse) Reset()         { *m = ConnectResponse{} }
+func (m *ConnectResponse) String() string { return proto.CompactTextString(m) }
+func (*ConnectResponse) ProtoMessage()    {}
+func (*ConnectResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7ed0ab0be00c75b7, []int{2}
+}
+
+func (m *ConnectResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConnectResponse.Unmarshal(m, b)
+}
+func (m *ConnectResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConnectResponse.Marshal(b, m, deterministic)
+}
+func (m *ConnectResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConnectResponse.Merge(m, src)
+}
+func (m *ConnectResponse) XXX_Size() int {
+	return xxx_messageInfo_ConnectResponse.Size(m)
+}
+func (m *ConnectResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConnectResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConnectResponse proto.InternalMessageInfo
+
+func (m *ConnectResponse) GetPlayer() *PlayerData {
+	if m != nil {
+		return m.Player
+	}
+	return nil
+}
+
+func (m *ConnectResponse) GetIsSuccess() bool {
+	if m != nil {
+		return m.IsSuccess
+	}
+	return false
+}
+
+func (m *ConnectResponse) GetOtherPlayers() []*PlayerData {
+	if m != nil {
+		return m.OtherPlayers
+	}
+	return nil
+}
+
+type PlayerPosition struct {
+	X                    float32  `protobuf:"fixed32,1,opt,name=x,proto3" json:"x,omitempty"`
+	Y                    float32  `protobuf:"fixed32,2,opt,name=y,proto3" json:"y,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *PlayerPosition) Reset()         { *m = PlayerPosition{} }
+func (m *PlayerPosition) String() string { return proto.CompactTextString(m) }
+func (*PlayerPosition) ProtoMessage()    {}
+func (*PlayerPosition) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7ed0ab0be00c75b7, []int{3}
+}
+
+func (m *PlayerPosition) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PlayerPosition.Unmarshal(m, b)
+}
+func (m *PlayerPosition) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PlayerPosition.Marshal(b, m, deterministic)
+}
+func (m *PlayerPosition) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PlayerPosition.Merge(m, src)
+}
+func (m *PlayerPosition) XXX_Size() int {
+	return xxx_messageInfo_PlayerPosition.Size(m)
+}
+func (m *PlayerPosition) XXX_DiscardUnknown() {
+	xxx_messageInfo_PlayerPosition.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PlayerPosition proto.InternalMessageInfo
+
+func (m *PlayerPosition) GetX() float32 {
+	if m != nil {
+		return m.X
+	}
+	return 0
+}
+
+func (m *PlayerPosition) GetY() float32 {
+	if m != nil {
+		return m.Y
+	}
+	return 0
+}
+
+type PlayerPositionById struct {
+	Id                   int32           `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Position             *PlayerPosition `protobuf:"bytes,2,opt,name=position,proto3" json:"position,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
+}
+
+func (m *PlayerPositionById) Reset()         { *m = PlayerPositionById{} }
+func (m *PlayerPositionById) String() string { return proto.CompactTextString(m) }
+func (*PlayerPositionById) ProtoMessage()    {}
+func (*PlayerPositionById) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7ed0ab0be00c75b7, []int{4}
+}
+
+func (m *PlayerPositionById) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PlayerPositionById.Unmarshal(m, b)
+}
+func (m *PlayerPositionById) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PlayerPositionById.Marshal(b, m, deterministic)
+}
+func (m *PlayerPositionById) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PlayerPositionById.Merge(m, src)
+}
+func (m *PlayerPositionById) XXX_Size() int {
+	return xxx_messageInfo_PlayerPositionById.Size(m)
+}
+func (m *PlayerPositionById) XXX_DiscardUnknown() {
+	xxx_messageInfo_PlayerPositionById.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PlayerPositionById proto.InternalMessageInfo
+
+func (m *PlayerPositionById) GetId() int32 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *PlayerPositionById) GetPosition() *PlayerPosition {
+	if m != nil {
+		return m.Position
+	}
+	return nil
+}
+
+type StreamResponse struct {
+	// Types that are valid to be assigned to Event:
+	//	*StreamResponse_Player
+	//	*StreamResponse_PlayerPositionById
+	Event                isStreamResponse_Event `protobuf_oneof:"event"`
+	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
+	XXX_unrecognized     []byte                 `json:"-"`
+	XXX_sizecache        int32                  `json:"-"`
+}
+
+func (m *StreamResponse) Reset()         { *m = StreamResponse{} }
+func (m *StreamResponse) String() string { return proto.CompactTextString(m) }
+func (*StreamResponse) ProtoMessage()    {}
+func (*StreamResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7ed0ab0be00c75b7, []int{5}
+}
+
+func (m *StreamResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_StreamResponse.Unmarshal(m, b)
+}
+func (m *StreamResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_StreamResponse.Marshal(b, m, deterministic)
+}
+func (m *StreamResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StreamResponse.Merge(m, src)
+}
+func (m *StreamResponse) XXX_Size() int {
+	return xxx_messageInfo_StreamResponse.Size(m)
+}
+func (m *StreamResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_StreamResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StreamResponse proto.InternalMessageInfo
+
+type isStreamResponse_Event interface {
+	isStreamResponse_Event()
+}
+
+type StreamResponse_Player struct {
+	Player *PlayerData `protobuf:"bytes,1,opt,name=player,proto3,oneof"`
+}
+
+type StreamResponse_PlayerPositionById struct {
+	PlayerPositionById *PlayerPositionById `protobuf:"bytes,2,opt,name=player_position_by_id,json=playerPositionById,proto3,oneof"`
+}
+
+func (*StreamResponse_Player) isStreamResponse_Event() {}
+
+func (*StreamResponse_PlayerPositionById) isStreamResponse_Event() {}
+
+func (m *StreamResponse) GetEvent() isStreamResponse_Event {
+	if m != nil {
+		return m.Event
+	}
+	return nil
+}
+
+func (m *StreamResponse) GetPlayer() *PlayerData {
+	if x, ok := m.GetEvent().(*StreamResponse_Player); ok {
+		return x.Player
+	}
+	return nil
+}
+
+func (m *StreamResponse) GetPlayerPositionById() *PlayerPositionById {
+	if x, ok := m.GetEvent().(*StreamResponse_PlayerPositionById); ok {
+		return x.PlayerPositionById
+	}
+	return nil
+}
+
+// XXX_OneofFuncs is for the internal use of the proto package.
+func (*StreamResponse) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _StreamResponse_OneofMarshaler, _StreamResponse_OneofUnmarshaler, _StreamResponse_OneofSizer, []interface{}{
+		(*StreamResponse_Player)(nil),
+		(*StreamResponse_PlayerPositionById)(nil),
+	}
+}
+
+func _StreamResponse_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	m := msg.(*StreamResponse)
+	// event
+	switch x := m.Event.(type) {
+	case *StreamResponse_Player:
+		b.EncodeVarint(1<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.Player); err != nil {
+			return err
+		}
+	case *StreamResponse_PlayerPositionById:
+		b.EncodeVarint(2<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.PlayerPositionById); err != nil {
+			return err
+		}
+	case nil:
+	default:
+		return fmt.Errorf("StreamResponse.Event has unexpected type %T", x)
+	}
+	return nil
+}
+
+func _StreamResponse_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	m := msg.(*StreamResponse)
+	switch tag {
+	case 1: // event.player
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(PlayerData)
+		err := b.DecodeMessage(msg)
+		m.Event = &StreamResponse_Player{msg}
+		return true, err
+	case 2: // event.player_position_by_id
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(PlayerPositionById)
+		err := b.DecodeMessage(msg)
+		m.Event = &StreamResponse_PlayerPositionById{msg}
+		return true, err
+	default:
+		return false, nil
+	}
+}
+
+func _StreamResponse_OneofSizer(msg proto.Message) (n int) {
+	m := msg.(*StreamResponse)
+	// event
+	switch x := m.Event.(type) {
+	case *StreamResponse_Player:
+		s := proto.Size(x.Player)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *StreamResponse_PlayerPositionById:
+		s := proto.Size(x.PlayerPositionById)
+		n += 1 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case nil:
+	default:
+		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
+	}
+	return n
+}
+
 func init() {
-	proto.RegisterType((*CreateRoomRequest)(nil), "platformer.CreateRoomRequest")
-	proto.RegisterType((*CreateRoomResponse)(nil), "platformer.CreateRoomResponse")
-	proto.RegisterType((*JoinRoomRequest)(nil), "platformer.JoinRoomRequest")
-	proto.RegisterType((*JoinRoomResponse)(nil), "platformer.JoinRoomResponse")
-	proto.RegisterType((*Position)(nil), "platformer.Position")
-	proto.RegisterType((*PositionById)(nil), "platformer.PositionById")
+	proto.RegisterType((*PlayerData)(nil), "platformer.PlayerData")
+	proto.RegisterType((*ConnectRequest)(nil), "platformer.ConnectRequest")
+	proto.RegisterType((*ConnectResponse)(nil), "platformer.ConnectResponse")
+	proto.RegisterType((*PlayerPosition)(nil), "platformer.PlayerPosition")
+	proto.RegisterType((*PlayerPositionById)(nil), "platformer.PlayerPositionById")
+	proto.RegisterType((*StreamResponse)(nil), "platformer.StreamResponse")
 }
 
 func init() { proto.RegisterFile("platformer.proto", fileDescriptor_7ed0ab0be00c75b7) }
 
 var fileDescriptor_7ed0ab0be00c75b7 = []byte{
-	// 291 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x92, 0xdf, 0x4a, 0xf3, 0x40,
-	0x10, 0xc5, 0xd9, 0xc0, 0xd7, 0x2f, 0x8e, 0x41, 0xeb, 0x2a, 0x58, 0xa2, 0x15, 0xd9, 0x0b, 0xe9,
-	0x8d, 0xa5, 0xd6, 0x37, 0xb0, 0x28, 0x44, 0x6f, 0x42, 0xfa, 0x00, 0xa5, 0x26, 0x2b, 0x2c, 0x98,
-	0x4c, 0xdc, 0x49, 0xa0, 0x79, 0x63, 0x1f, 0x43, 0x36, 0xdd, 0xfc, 0x41, 0x9b, 0xcb, 0x99, 0x73,
-	0xe6, 0xcc, 0xce, 0x8f, 0x85, 0x71, 0xfe, 0xb9, 0x2d, 0x3e, 0x50, 0xa7, 0x52, 0xcf, 0x73, 0x8d,
-	0x05, 0x72, 0xe8, 0x3a, 0xe2, 0x1c, 0xce, 0x56, 0x5a, 0x6e, 0x0b, 0x19, 0x21, 0xa6, 0x91, 0xfc,
-	0x2a, 0x25, 0x15, 0xe2, 0x1e, 0x78, 0xbf, 0x49, 0x39, 0x66, 0x24, 0xf9, 0x25, 0xfc, 0xd7, 0x88,
-	0xe9, 0x46, 0x25, 0x13, 0x76, 0xcb, 0x66, 0xff, 0xa2, 0x91, 0x29, 0x83, 0x44, 0xac, 0xe0, 0xf4,
-	0x15, 0x55, 0xd6, 0x4b, 0x18, 0xf4, 0x1a, 0xa1, 0x24, 0xa9, 0x8d, 0xe0, 0xec, 0x05, 0x53, 0x06,
-	0x89, 0x78, 0x80, 0x71, 0x17, 0x62, 0x37, 0x4e, 0x01, 0x14, 0x6d, 0xa8, 0x8c, 0x63, 0x49, 0x54,
-	0x07, 0xb9, 0xd1, 0x91, 0xa2, 0xf5, 0xbe, 0x21, 0xee, 0xc0, 0x0d, 0x91, 0x54, 0xa1, 0x30, 0xe3,
-	0x1e, 0xb0, 0x9d, 0x5d, 0xc5, 0x76, 0xa6, 0xaa, 0x6c, 0x3e, 0xab, 0x44, 0x08, 0x5e, 0xe3, 0x7b,
-	0xaa, 0x82, 0x84, 0x9f, 0x80, 0xd3, 0xbe, 0xcb, 0x51, 0x09, 0x5f, 0x80, 0x9b, 0x5b, 0xbd, 0x1e,
-	0x3a, 0x5e, 0x5e, 0xcc, 0x7b, 0xd0, 0x9a, 0xd9, 0xa8, 0x75, 0x2d, 0xbf, 0x19, 0x40, 0xd8, 0x3a,
-	0xf8, 0x1b, 0x40, 0xc7, 0x8b, 0x4f, 0xfb, 0xc3, 0x7f, 0xe0, 0xfa, 0x37, 0x43, 0xb2, 0x3d, 0xfa,
-	0x19, 0xdc, 0x06, 0x04, 0xbf, 0xea, 0x7b, 0x7f, 0x31, 0xf6, 0xaf, 0x0f, 0x8b, 0x36, 0xe6, 0x05,
-	0xbc, 0x75, 0x95, 0xc5, 0x2d, 0xa0, 0xc9, 0xa1, 0x93, 0x0c, 0x0e, 0x7f, 0x50, 0x99, 0xb1, 0x05,
-	0x7b, 0x1f, 0xd5, 0x7f, 0xe6, 0xf1, 0x27, 0x00, 0x00, 0xff, 0xff, 0xa4, 0xbf, 0x88, 0x96, 0x47,
-	0x02, 0x00, 0x00,
+	// 363 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x93, 0x4f, 0x4b, 0xc3, 0x40,
+	0x10, 0xc5, 0x3b, 0xa9, 0xfd, 0x37, 0xad, 0x51, 0x06, 0x94, 0x50, 0x51, 0x42, 0xf0, 0x90, 0x83,
+	0x94, 0x52, 0xc1, 0x8b, 0xb7, 0xea, 0xa1, 0xde, 0xca, 0xf6, 0x2a, 0x84, 0xb4, 0x59, 0x69, 0xa0,
+	0xcd, 0xc6, 0xec, 0x56, 0x9a, 0xaf, 0x22, 0x08, 0x7e, 0x54, 0xe9, 0x26, 0xa6, 0x0d, 0xf5, 0xef,
+	0x6d, 0x33, 0xf9, 0xf1, 0xe6, 0xbd, 0x97, 0x0d, 0x1e, 0xc7, 0x0b, 0x5f, 0x3d, 0x89, 0x64, 0xc9,
+	0x93, 0x5e, 0x9c, 0x08, 0x25, 0x08, 0xb7, 0x13, 0x67, 0x8e, 0x38, 0x5e, 0xf8, 0x29, 0x4f, 0xee,
+	0x7d, 0xe5, 0x93, 0x89, 0x46, 0x18, 0x58, 0x60, 0x83, 0x5b, 0x63, 0x46, 0x18, 0x10, 0xe1, 0x41,
+	0xe4, 0x2f, 0xb9, 0x65, 0xd8, 0xe0, 0xb6, 0x98, 0x3e, 0xd3, 0x0d, 0x36, 0x63, 0x21, 0x43, 0x15,
+	0x8a, 0xc8, 0xaa, 0xda, 0xe0, 0xb6, 0x07, 0xdd, 0xde, 0xce, 0x8a, 0x4c, 0x6d, 0x9c, 0x13, 0xac,
+	0x60, 0x9d, 0x4b, 0x34, 0xef, 0x44, 0x14, 0xf1, 0x99, 0x62, 0xfc, 0x79, 0xc5, 0xa5, 0x2a, 0xd4,
+	0x61, 0xab, 0xee, 0xbc, 0x01, 0x1e, 0x15, 0x98, 0x8c, 0x45, 0x24, 0x39, 0xf5, 0xb0, 0x1e, 0x6b,
+	0x55, 0x4d, 0xb6, 0x07, 0xa7, 0xfb, 0xfb, 0x36, 0xee, 0x59, 0x4e, 0xd1, 0x39, 0x62, 0x28, 0x3d,
+	0xb9, 0x9a, 0xcd, 0xb8, 0x94, 0xda, 0x7b, 0x93, 0xb5, 0x42, 0x39, 0xc9, 0x06, 0x74, 0x8b, 0x87,
+	0x42, 0xcd, 0x79, 0xe2, 0x65, 0xb8, 0xb4, 0xaa, 0x76, 0xf5, 0x07, 0xd5, 0x8e, 0x86, 0xb3, 0x81,
+	0x74, 0xae, 0xd0, 0x2c, 0x27, 0xa4, 0x0e, 0xc2, 0x5a, 0x1b, 0x33, 0x18, 0xac, 0x37, 0x4f, 0xa9,
+	0x5e, 0x69, 0x30, 0x48, 0x9d, 0x47, 0xa4, 0x32, 0x3d, 0x4c, 0x1f, 0x82, 0xbd, 0x96, 0x77, 0x1b,
+	0x35, 0xfe, 0xd1, 0xe8, 0x3b, 0xa0, 0x39, 0x51, 0x09, 0xf7, 0x97, 0x45, 0x55, 0xfd, 0xbf, 0x55,
+	0x35, 0xaa, 0x14, 0x65, 0x4d, 0xf0, 0x24, 0x3b, 0x79, 0x9f, 0xba, 0xde, 0x34, 0xf5, 0xc2, 0x20,
+	0x77, 0x72, 0xf1, 0xbd, 0x93, 0x4d, 0x96, 0x51, 0x85, 0x51, 0xbc, 0x37, 0x1d, 0x36, 0xb0, 0xc6,
+	0x5f, 0x78, 0xa4, 0x06, 0xaf, 0xa0, 0xef, 0x57, 0x2e, 0x40, 0x43, 0x6c, 0xe4, 0x1f, 0x97, 0x4a,
+	0x11, 0xcb, 0x17, 0xa3, 0x7b, 0xf6, 0xe5, 0xbb, 0x3c, 0xe2, 0x08, 0xeb, 0x59, 0x68, 0xfa, 0xc5,
+	0x5b, 0xb7, 0xb4, 0xa2, 0x5c, 0x94, 0x0b, 0x7d, 0x98, 0xd6, 0xf5, 0xef, 0x70, 0xfd, 0x11, 0x00,
+	0x00, 0xff, 0xff, 0xec, 0x5a, 0x0f, 0x9e, 0x22, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -318,9 +461,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type PlatformerClient interface {
-	CreateRoom(ctx context.Context, in *CreateRoomRequest, opts ...grpc.CallOption) (*CreateRoomResponse, error)
-	JoinRoom(ctx context.Context, in *JoinRoomRequest, opts ...grpc.CallOption) (*JoinRoomResponse, error)
-	SyncPosition(ctx context.Context, opts ...grpc.CallOption) (Platformer_SyncPositionClient, error)
+	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*ConnectResponse, error)
+	Stream(ctx context.Context, opts ...grpc.CallOption) (Platformer_StreamClient, error)
 }
 
 type platformerClient struct {
@@ -331,49 +473,40 @@ func NewPlatformerClient(cc *grpc.ClientConn) PlatformerClient {
 	return &platformerClient{cc}
 }
 
-func (c *platformerClient) CreateRoom(ctx context.Context, in *CreateRoomRequest, opts ...grpc.CallOption) (*CreateRoomResponse, error) {
-	out := new(CreateRoomResponse)
-	err := c.cc.Invoke(ctx, "/platformer.Platformer/CreateRoom", in, out, opts...)
+func (c *platformerClient) Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*ConnectResponse, error) {
+	out := new(ConnectResponse)
+	err := c.cc.Invoke(ctx, "/platformer.Platformer/Connect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *platformerClient) JoinRoom(ctx context.Context, in *JoinRoomRequest, opts ...grpc.CallOption) (*JoinRoomResponse, error) {
-	out := new(JoinRoomResponse)
-	err := c.cc.Invoke(ctx, "/platformer.Platformer/JoinRoom", in, out, opts...)
+func (c *platformerClient) Stream(ctx context.Context, opts ...grpc.CallOption) (Platformer_StreamClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Platformer_serviceDesc.Streams[0], "/platformer.Platformer/Stream", opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
-}
-
-func (c *platformerClient) SyncPosition(ctx context.Context, opts ...grpc.CallOption) (Platformer_SyncPositionClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Platformer_serviceDesc.Streams[0], "/platformer.Platformer/SyncPosition", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &platformerSyncPositionClient{stream}
+	x := &platformerStreamClient{stream}
 	return x, nil
 }
 
-type Platformer_SyncPositionClient interface {
-	Send(*PositionById) error
-	Recv() (*PositionById, error)
+type Platformer_StreamClient interface {
+	Send(*PlayerPositionById) error
+	Recv() (*StreamResponse, error)
 	grpc.ClientStream
 }
 
-type platformerSyncPositionClient struct {
+type platformerStreamClient struct {
 	grpc.ClientStream
 }
 
-func (x *platformerSyncPositionClient) Send(m *PositionById) error {
+func (x *platformerStreamClient) Send(m *PlayerPositionById) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *platformerSyncPositionClient) Recv() (*PositionById, error) {
-	m := new(PositionById)
+func (x *platformerStreamClient) Recv() (*StreamResponse, error) {
+	m := new(StreamResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -382,71 +515,52 @@ func (x *platformerSyncPositionClient) Recv() (*PositionById, error) {
 
 // PlatformerServer is the server API for Platformer service.
 type PlatformerServer interface {
-	CreateRoom(context.Context, *CreateRoomRequest) (*CreateRoomResponse, error)
-	JoinRoom(context.Context, *JoinRoomRequest) (*JoinRoomResponse, error)
-	SyncPosition(Platformer_SyncPositionServer) error
+	Connect(context.Context, *ConnectRequest) (*ConnectResponse, error)
+	Stream(Platformer_StreamServer) error
 }
 
 func RegisterPlatformerServer(s *grpc.Server, srv PlatformerServer) {
 	s.RegisterService(&_Platformer_serviceDesc, srv)
 }
 
-func _Platformer_CreateRoom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRoomRequest)
+func _Platformer_Connect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConnectRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PlatformerServer).CreateRoom(ctx, in)
+		return srv.(PlatformerServer).Connect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/platformer.Platformer/CreateRoom",
+		FullMethod: "/platformer.Platformer/Connect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PlatformerServer).CreateRoom(ctx, req.(*CreateRoomRequest))
+		return srv.(PlatformerServer).Connect(ctx, req.(*ConnectRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Platformer_JoinRoom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(JoinRoomRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PlatformerServer).JoinRoom(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/platformer.Platformer/JoinRoom",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PlatformerServer).JoinRoom(ctx, req.(*JoinRoomRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+func _Platformer_Stream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PlatformerServer).Stream(&platformerStreamServer{stream})
 }
 
-func _Platformer_SyncPosition_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(PlatformerServer).SyncPosition(&platformerSyncPositionServer{stream})
-}
-
-type Platformer_SyncPositionServer interface {
-	Send(*PositionById) error
-	Recv() (*PositionById, error)
+type Platformer_StreamServer interface {
+	Send(*StreamResponse) error
+	Recv() (*PlayerPositionById, error)
 	grpc.ServerStream
 }
 
-type platformerSyncPositionServer struct {
+type platformerStreamServer struct {
 	grpc.ServerStream
 }
 
-func (x *platformerSyncPositionServer) Send(m *PositionById) error {
+func (x *platformerStreamServer) Send(m *StreamResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *platformerSyncPositionServer) Recv() (*PositionById, error) {
-	m := new(PositionById)
+func (x *platformerStreamServer) Recv() (*PlayerPositionById, error) {
+	m := new(PlayerPositionById)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -458,18 +572,14 @@ var _Platformer_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*PlatformerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateRoom",
-			Handler:    _Platformer_CreateRoom_Handler,
-		},
-		{
-			MethodName: "JoinRoom",
-			Handler:    _Platformer_JoinRoom_Handler,
+			MethodName: "Connect",
+			Handler:    _Platformer_Connect_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "SyncPosition",
-			Handler:       _Platformer_SyncPosition_Handler,
+			StreamName:    "Stream",
+			Handler:       _Platformer_Stream_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},

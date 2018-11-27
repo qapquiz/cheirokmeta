@@ -2,58 +2,179 @@ package main
 
 import (
 	context "context"
-	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net"
+	"strconv"
+	"sync"
 
 	pb "github.com/qapquiz/cheirokmeta/examples/platformer/server/platformer"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/status"
 )
 
-type user struct {
-	id int32
-}
-
-type room struct {
-	id   int32
-	user []user
-}
-
 type platformerServer struct {
-	roomID int32
-	rooms  map[int32]room
+	LatestPlayerID   int32
+	PlayersMapWithID map[int32]*pb.PlayerData
+	Players          []*pb.PlayerData
+
+	Broadcast     chan pb.StreamResponse
+	PlayerStreams map[int32]chan pb.StreamResponse
+
+	playerStreamsMtx sync.RWMutex
 }
 
 var (
 	port = flag.Int("port", 5050, "The server port")
 )
 
-func (server *platformerServer) CreateRoom(ctx context.Context, createRoomRequest *pb.CreateRoomRequest) (*pb.CreateRoomResponse, error) {
-	server.roomID = server.roomID + 1
-	server.rooms[server.roomID] = room{server.roomID, []user{}}
-
-	return &pb.CreateRoomResponse{RoomId: server.roomID}, nil
-}
-
-func (server *platformerServer) JoinRoom(ctx context.Context, joinRoomRequest *pb.JoinRoomRequest) (*pb.JoinRoomResponse, error) {
-	if room, ok := server.rooms[joinRoomRequest.RoomId]; ok {
-		room.user = append(room.user, user{joinRoomRequest.UserId})
-	} else {
-		return &pb.JoinRoomResponse{IsSuccess: false}, errors.New("Room not found.")
+func (s *platformerServer) Connect(ctx context.Context, connectRequest *pb.ConnectRequest) (*pb.ConnectResponse, error) {
+	player := &pb.PlayerData{
+		Id:   s.LatestPlayerID,
+		Name: connectRequest.GetName(),
+		Position: &pb.PlayerPosition{
+			X: 0.0,
+			Y: 0.0,
+		},
 	}
 
-	return &pb.JoinRoomResponse{IsSuccess: true}, nil
+	s.Players = append(s.Players, player)
+	s.PlayersMapWithID[s.LatestPlayerID] = player
+
+	s.Broadcast <- pb.StreamResponse{
+		Event: &pb.StreamResponse_Player{
+			Player: &pb.PlayerData{
+				Id:   s.LatestPlayerID,
+				Name: connectRequest.GetName(),
+				Position: &pb.PlayerPosition{
+					X: 0.0,
+					Y: 0.0,
+				},
+			},
+		},
+	}
+
+	s.LatestPlayerID = s.LatestPlayerID + 1
+
+	return &pb.ConnectResponse{
+		Player:       player,
+		IsSuccess:    true,
+		OtherPlayers: s.Players,
+	}, nil
 }
 
-func (server *platformerServer) SyncPosition(stream pb.Platformer_SyncPositionServer) error {
+func (s *platformerServer) Stream(streamServer pb.Platformer_StreamServer) error {
+	playerIDHeader := "player-id"
+
+	md, ok := metadata.FromIncomingContext(streamServer.Context())
+	if !ok || len(md[playerIDHeader]) == 0 {
+		log.Fatal("Cant get playerID from metadata")
+	}
+
+	playerIDString := md[playerIDHeader][0]
+	playerID, err := strconv.ParseInt(playerIDString, 10, 32)
+
+	if err != nil {
+		log.Fatal("Cant convert PlayerID from string to int")
+	}
+
+	go s.sendBroadcastsFromServer(streamServer, int32(playerID))
+
 	for {
-		in, err := stream.Recv()
+		req, err := streamServer.Recv()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			return err
+		}
 
+		id := req.GetId()
+		position := req.GetPosition()
+
+		s.Players[id].Position = position
+		s.PlayersMapWithID[id].Position = position
+
+		log.Printf("Receive from id: %v position: %v", req.GetId(), req.GetPosition())
+
+		s.Broadcast <- pb.StreamResponse{
+			Event: &pb.StreamResponse_PlayerPositionById{
+				PlayerPositionById: &pb.PlayerPositionById{
+					Id:       req.GetId(),
+					Position: req.GetPosition(),
+				},
+			},
+		}
 	}
-	return nil
+
+	<-streamServer.Context().Done()
+	return streamServer.Context().Err()
+}
+
+func (s *platformerServer) systemBroadcast() {
+	for res := range s.Broadcast {
+		s.playerStreamsMtx.Lock()
+		for _, stream := range s.PlayerStreams {
+			select {
+			case stream <- res:
+				// no operation
+			default:
+				log.Printf("Client stream full!, dropping message")
+			}
+		}
+		s.playerStreamsMtx.Unlock()
+	}
+}
+
+func (s *platformerServer) sendBroadcastsFromServer(streamServer pb.Platformer_StreamServer, playerID int32) {
+	stream := s.openStream(playerID)
+	defer s.closeStream(playerID)
+
+	for {
+		select {
+		case <-streamServer.Context().Done():
+			return
+		case res := <-stream:
+			if s, ok := status.FromError(streamServer.Send(&res)); ok {
+				switch s.Code() {
+				case codes.OK:
+					// no operation
+				case codes.Unavailable, codes.Canceled, codes.DeadlineExceeded:
+					log.Printf("Player id %d terminated connection", playerID)
+				default:
+					log.Printf("Failed to send to Player id: %d", playerID)
+				}
+			}
+		}
+	}
+}
+
+func (s *platformerServer) openStream(playerID int32) (stream chan pb.StreamResponse) {
+	stream = make(chan pb.StreamResponse, 100)
+
+	s.playerStreamsMtx.Lock()
+	s.PlayerStreams[playerID] = stream
+	s.playerStreamsMtx.Unlock()
+
+	log.Printf("open stream for player id: %d", playerID)
+
+	return
+}
+
+func (s *platformerServer) closeStream(playerID int32) {
+	s.playerStreamsMtx.Lock()
+
+	if stream, ok := s.PlayerStreams[playerID]; ok {
+		delete(s.PlayerStreams, playerID)
+		close(stream)
+	}
+
+	s.playerStreamsMtx.Unlock()
+
+	log.Printf("close stream for player id: %d", playerID)
 }
 
 func main() {
@@ -64,9 +185,23 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	pb.RegisterPlatformerServer(grpcServer, &platformerServer{})
-	reflection.Register(grpcServer)
+
+	server := &platformerServer{
+		LatestPlayerID:   0,
+		PlayersMapWithID: make(map[int32]*pb.PlayerData),
+		Players:          []*pb.PlayerData{},
+
+		Broadcast:     make(chan pb.StreamResponse, 1000),
+		PlayerStreams: make(map[int32]chan pb.StreamResponse),
+	}
+
+	pb.RegisterPlatformerServer(grpcServer, server)
+
+	go server.systemBroadcast()
+
+	// reflection.Register(grpcServer)
 	if err := grpcServer.Serve(listen); err != nil {
 		log.Fatalf("failed to server: %v", err)
 	}
+
 }

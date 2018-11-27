@@ -7,8 +7,11 @@ using UnityEngine;
 namespace Platformer {
     public sealed class PlatformerBootstrap {
         public static EntityArchetype PlayerArcheType;
+        public static EntityArchetype OtherPlayerArcheType;
+        public static EntityArchetype GrpcReceiverArcheType;
 
         public static MeshInstanceRenderer PlayerMeshRenderer;
+        public static MeshInstanceRenderer OtherPlayerMeshRenderer;
 
         public static PlatformerSettings Settings;
 
@@ -17,7 +20,15 @@ namespace Platformer {
             var entityManager = World.Active.GetOrCreateManager<EntityManager>();
 
             PlayerArcheType = entityManager.CreateArchetype(
-                typeof(Position), typeof(PlayerInput)
+                typeof(Position), typeof(PlayerInput), typeof(PlayerUpdatedPosition)
+            );
+
+            OtherPlayerArcheType = entityManager.CreateArchetype(
+                typeof(Position), typeof(OtherPlayerData)
+            );
+
+            GrpcReceiverArcheType = entityManager.CreateArchetype(
+                typeof(GrpcReceiverTag)
             );
         }
 
@@ -31,10 +42,11 @@ namespace Platformer {
             entityManager.SetComponentData(player, new PlayerInput {
                 Move = new float3(0.0f, 0.0f, 0.0f)
             });
+            entityManager.SetComponentData(player, new PlayerUpdatedPosition {
+                Value = new float3(0.0f, 0.0f, 0.0f)
+            });
 
             entityManager.AddSharedComponentData(player, PlayerMeshRenderer);
-
-            Debug.Log(player);
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -46,10 +58,13 @@ namespace Platformer {
             var settingGO = GameObject.Find("Settings");
             Settings = settingGO?.GetComponent<PlatformerSettings>();
 
-            PlayerMeshRenderer = GetPlayerPrototype("PlayerRenderPrototype");
+            PlayerMeshRenderer = GetPrototype("PlayerRenderPrototype");
+            OtherPlayerMeshRenderer = GetPrototype("OtherPlayerRenderPrototype");
+
+            World.Active.GetOrCreateManager<UpdatePlayerHud>().SetupGameObjects();
         }
 
-        private static MeshInstanceRenderer GetPlayerPrototype(string protoName) {
+        private static MeshInstanceRenderer GetPrototype(string protoName) {
             var proto = GameObject.Find(protoName);
             var result = proto.GetComponent<MeshInstanceRendererComponent>().Value;
             Object.Destroy(proto);

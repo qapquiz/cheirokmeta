@@ -5,8 +5,12 @@
         "Unity.Entities.Hybrid",
         "Unity.Mathematics",
         "Unity.Transforms",
+        "Unity.Jobs",
+        "Unity.Collections",
         "Unity.Rendering.Hybrid",
-        "Witchcraft.Platformer.Components"
+        "Witchcraft.Platformer.Components",
+        "Witchcraft.Platformer.Grpc",
+        "Witchcraft.Platformer.PlayerData"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
@@ -15,5 +19,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }
