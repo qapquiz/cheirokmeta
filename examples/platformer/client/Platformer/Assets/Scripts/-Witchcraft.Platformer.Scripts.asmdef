@@ -8,6 +8,7 @@
         "Unity.Jobs",
         "Unity.Collections",
         "Unity.Rendering.Hybrid",
+        "Unity.Burst",
         "Witchcraft.Platformer.Components",
         "Witchcraft.Platformer.Grpc",
         "Witchcraft.Platformer.PlayerData"

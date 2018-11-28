@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using Platformer.Components;
 
 namespace Platformer {
     public static class EntityFactory {

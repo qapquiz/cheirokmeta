@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
+using Platformer.Components;
 
 namespace Platformer {
     [UpdateAfter(typeof(PlayerMoveSystem))]

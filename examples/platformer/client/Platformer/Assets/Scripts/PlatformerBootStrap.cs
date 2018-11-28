@@ -3,6 +3,7 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Rendering;
 using UnityEngine;
+using Platformer.Components;
 
 namespace Platformer {
     public sealed class PlatformerBootstrap {
@@ -20,7 +21,7 @@ namespace Platformer {
             var entityManager = World.Active.GetOrCreateManager<EntityManager>();
 
             PlayerArcheType = entityManager.CreateArchetype(
-                typeof(Position), typeof(PlayerInput), typeof(PlayerUpdatedPosition)
+                typeof(Position), typeof(PlayerInput), typeof(PlayerUpdatedPosition), typeof(MoveSpeed)
             );
 
             OtherPlayerArcheType = entityManager.CreateArchetype(
@@ -44,6 +45,9 @@ namespace Platformer {
             });
             entityManager.SetComponentData(player, new PlayerUpdatedPosition {
                 Value = new float3(0.0f, 0.0f, 0.0f)
+            });
+            entityManager.SetComponentData(player, new MoveSpeed {
+                Value = Settings.PlayerMoveSpeed
             });
 
             entityManager.AddSharedComponentData(player, PlayerMeshRenderer);

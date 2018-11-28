@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
+using Platformer.Components;
 
 namespace Platformer {
     public class PlayerInputSystem : ComponentSystem

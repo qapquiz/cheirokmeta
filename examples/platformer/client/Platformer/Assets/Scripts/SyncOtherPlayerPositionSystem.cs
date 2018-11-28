@@ -1,30 +1,34 @@
-﻿using Unity.Entities;
+﻿using Unity.Collections;
+using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Jobs;
+using UnityEngine;
+using Platformer.Components;
 
 namespace Platformer {
     public class SyncOtherPlayerPositionSystem : JobComponentSystem {
-        struct Data {
+        struct OtherPlayer {
             public readonly int Length;
             public ComponentDataArray<Position> Positions;
             public ComponentDataArray<OtherPlayerData> OtherPlayerDatas;
 
         }
 
-        [Inject] private Data _data;
+        [Inject] private OtherPlayer _otherPlayer;
 
         private struct SyncOtherPlayerPositionJob : IJobParallelFor {
-            public Data Data;
+            public ComponentDataArray<Position> positions;
+            [ReadOnly] public ComponentDataArray<OtherPlayerData> otherPlayerDatas;
            
             public void Execute(int index) {
                 if (PlatformerGrpcController.Instance.PlayerPositionByIdResponses.Length == 0) {
                     return;
                 }
 
-                int id = Data.OtherPlayerDatas[index].ID;
+                int id = otherPlayerDatas[index].ID;
                 if (PlatformerGrpcController.Instance.PlayerPositionByIdResponses.TryGetValue(id, out float3 position)) {
-                    Data.Positions[index] = new Position {
+                    positions[index] = new Position {
                         Value = position
                     };
 
@@ -35,8 +39,9 @@ namespace Platformer {
 
         protected override JobHandle OnUpdate(JobHandle inputDeps) {
             return new SyncOtherPlayerPositionJob {
-                Data = _data
-            }.Schedule(_data.Length, 64, inputDeps);
+                positions = _otherPlayer.Positions,
+                otherPlayerDatas = _otherPlayer.OtherPlayerDatas,
+            }.Schedule(_otherPlayer.Length, 64, inputDeps);
         }
     }
 }

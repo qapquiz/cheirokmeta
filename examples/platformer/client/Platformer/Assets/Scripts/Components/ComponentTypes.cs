@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
 
-namespace Platformer {
+namespace Platformer.Components {
     public struct GrpcReceiverTag : IComponentData {}
 
     public struct OtherPlayerData : IComponentData {
@@ -14,5 +14,9 @@ namespace Platformer {
 
     public struct PlayerUpdatedPosition : IComponentData {
         public float3 Value;
+    }
+
+    public struct MoveSpeed : IComponentData {
+        public float Value;
     }
 }

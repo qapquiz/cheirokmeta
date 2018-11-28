@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Transforms;
 using UnityEngine;
+using Platformer.Components;
 
 namespace Platformer {
     public class PlayerMoveSystem : ComponentSystem {
@@ -9,13 +10,12 @@ namespace Platformer {
             public readonly int Length;
             public ComponentDataArray<Position> Positions;
             public ComponentDataArray<PlayerInput> Inputs;
+            public ComponentDataArray<MoveSpeed> MoveSpeeds;
         }
 
         [Inject] private Data _data; 
         
         protected override void OnUpdate() {
-            var settings = PlatformerBootstrap.Settings;
-
             float dt = Time.deltaTime;
             float screenLeft = -9.5f;
             float screenRight = 9.5f;
@@ -26,8 +26,9 @@ namespace Platformer {
                 var position = _data.Positions[index].Value;
 
                 var playerInput = _data.Inputs[index];
+                var moveSpeed = _data.MoveSpeeds[index];
 
-                position += dt * playerInput.Move * settings.PlayerMoveSpeed;
+                position += dt * playerInput.Move * moveSpeed.Value;
 
                 if (position.x < screenLeft) {
                     position.x = screenLeft;

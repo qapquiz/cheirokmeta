@@ -4,6 +4,7 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using Platformer.Components;
 
 namespace Platformer {
     [AlwaysUpdateSystem]
