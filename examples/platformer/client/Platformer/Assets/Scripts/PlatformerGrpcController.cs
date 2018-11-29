@@ -34,7 +34,7 @@ namespace Platformer {
         public AsyncDuplexStreamingCall<PlayerPositionById, StreamResponse> DuplexStream;
 
         public NativeList<EventPlayerConnected> PlayerConnectedResponses = new NativeList<EventPlayerConnected>(Allocator.Persistent);
-        public NativeHashMap<int, float3> PlayerPositionByIdResponses = new NativeHashMap<int, float3>(100, Allocator.Persistent);
+        public NativeHashMap<int, NativeList<float3>> PlayerPositionByIdResponses = new NativeHashMap<int, NativeList<float3>>(100, Allocator.Persistent);
 
         ~PlatformerGrpcController() {
             Shutdown();
@@ -80,14 +80,28 @@ namespace Platformer {
                                 break;
                             case StreamResponse.EventOneofCase.PlayerPositionById:
                                 if (PlatformerPlayerData.ID != response.PlayerPositionById.Id) {
-                                    PlayerPositionByIdResponses.TryAdd(
-                                        key: response.PlayerPositionById.Id,
-                                        item: new float3 {
+                                    NativeList<float3> positions;
+
+                                    if (PlayerPositionByIdResponses.TryGetValue(response.PlayerPositionById.Id, out positions)) {
+                                        positions.Add(new float3 {
                                             x = response.PlayerPositionById.Position.X,
                                             y = response.PlayerPositionById.Position.Y,
                                             z = 0.0f
+                                        });
+                                    } else {
+                                        PlayerPositionByIdResponses.TryAdd(
+                                            key: response.PlayerPositionById.Id,
+                                            item: new NativeList<float3>(Allocator.Persistent)
+                                        );
+
+                                        if (PlayerPositionByIdResponses.TryGetValue(response.PlayerPositionById.Id, out positions)) {
+                                            positions.Add(new float3 {
+                                                x = response.PlayerPositionById.Position.X,
+                                                y = response.PlayerPositionById.Position.Y,
+                                                z = 0.0f
+                                            });
                                         }
-                                    );
+                                    }
                                 }
                                 break;
                         }

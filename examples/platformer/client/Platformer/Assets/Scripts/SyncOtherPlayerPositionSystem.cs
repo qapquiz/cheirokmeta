@@ -27,12 +27,14 @@ namespace Platformer {
                 }
 
                 int id = otherPlayerDatas[index].ID;
-                if (PlatformerGrpcController.Instance.PlayerPositionByIdResponses.TryGetValue(id, out float3 position)) {
-                    positions[index] = new Position {
-                        Value = position
-                    };
+                if (PlatformerGrpcController.Instance.PlayerPositionByIdResponses.TryGetValue(id, out NativeList<float3> responsePositions)) {
+                    for (int i = 0; i < responsePositions.Length; i++) {
+                        positions[index] = new Position {
+                            Value = responsePositions[i]
+                        };
+                    }
 
-                    PlatformerGrpcController.Instance.PlayerPositionByIdResponses.Remove(id);
+                    responsePositions.Clear();
                 }
             }
         }
