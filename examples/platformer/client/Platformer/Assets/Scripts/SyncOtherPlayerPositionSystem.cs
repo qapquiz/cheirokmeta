@@ -22,19 +22,20 @@ namespace Platformer {
             [ReadOnly] public ComponentDataArray<OtherPlayerData> otherPlayerDatas;
            
             public void Execute(int index) {
-                if (PlatformerGrpcController.Instance.PlayerPositionByIdResponses.Length == 0) {
+                if (PlatformerGrpcController.Instance.PlayerPositionByIdResponses.Count == 0) {
                     return;
                 }
 
                 int id = otherPlayerDatas[index].ID;
-                if (PlatformerGrpcController.Instance.PlayerPositionByIdResponses.TryGetValue(id, out NativeList<float3> responsePositions)) {
-                    for (int i = 0; i < responsePositions.Length; i++) {
+
+                if (PlatformerGrpcController.Instance.PlayerPositionByIdResponses.ContainsKey(id)) {
+                    for (int i = 0; i < PlatformerGrpcController.Instance.PlayerPositionByIdResponses[id].Length; i++) {
                         positions[index] = new Position {
-                            Value = responsePositions[i]
+                            Value = PlatformerGrpcController.Instance.PlayerPositionByIdResponses[id][i]
                         };
                     }
 
-                    responsePositions.Clear();
+                    PlatformerGrpcController.Instance.PlayerPositionByIdResponses[id].Clear();
                 }
             }
         }

@@ -34,7 +34,7 @@ namespace Platformer {
         public AsyncDuplexStreamingCall<PlayerPositionById, StreamResponse> DuplexStream;
 
         public NativeList<EventPlayerConnected> PlayerConnectedResponses = new NativeList<EventPlayerConnected>(Allocator.Persistent);
-        public NativeHashMap<int, NativeList<float3>> PlayerPositionByIdResponses = new NativeHashMap<int, NativeList<float3>>(100, Allocator.Persistent);
+        public Dictionary<int, NativeList<float3>> PlayerPositionByIdResponses = new Dictionary<int, NativeList<float3>>();
 
         ~PlatformerGrpcController() {
             Shutdown();
@@ -80,28 +80,17 @@ namespace Platformer {
                                 break;
                             case StreamResponse.EventOneofCase.PlayerPositionById:
                                 if (PlatformerPlayerData.ID != response.PlayerPositionById.Id) {
-                                    NativeList<float3> positions;
+                                    int id = response.PlayerPositionById.Id;
 
-                                    if (PlayerPositionByIdResponses.TryGetValue(response.PlayerPositionById.Id, out positions)) {
-                                        positions.Add(new float3 {
-                                            x = response.PlayerPositionById.Position.X,
-                                            y = response.PlayerPositionById.Position.Y,
-                                            z = 0.0f
-                                        });
-                                    } else {
-                                        PlayerPositionByIdResponses.TryAdd(
-                                            key: response.PlayerPositionById.Id,
-                                            item: new NativeList<float3>(Allocator.Persistent)
-                                        );
-
-                                        if (PlayerPositionByIdResponses.TryGetValue(response.PlayerPositionById.Id, out positions)) {
-                                            positions.Add(new float3 {
-                                                x = response.PlayerPositionById.Position.X,
-                                                y = response.PlayerPositionById.Position.Y,
-                                                z = 0.0f
-                                            });
-                                        }
+                                    if (!PlayerPositionByIdResponses.ContainsKey(id)) {
+                                        PlayerPositionByIdResponses.Add(id, new NativeList<float3>(Allocator.Persistent));
                                     }
+
+                                    PlayerPositionByIdResponses[id].Add(new float3 {
+                                        x = response.PlayerPositionById.Position.X,
+                                        y = response.PlayerPositionById.Position.Y,
+                                        z = 0.0f
+                                    });
                                 }
                                 break;
                         }
@@ -126,7 +115,6 @@ namespace Platformer {
 
             Channel.ShutdownAsync().Wait();
             PlayerConnectedResponses.Dispose();
-            PlayerPositionByIdResponses.Dispose();
 
             _instance = null;
         }

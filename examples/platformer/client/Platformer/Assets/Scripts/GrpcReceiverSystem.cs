@@ -15,7 +15,7 @@ namespace Platformer {
         protected override void OnUpdate() {
             if (
                 PlatformerGrpcController.Instance.PlayerConnectedResponses.Length == 0 &&
-                PlatformerGrpcController.Instance.PlayerPositionByIdResponses.Length == 0
+                PlatformerGrpcController.Instance.PlayerPositionByIdResponses.Count == 0
             ) {
                 return;
             }
